@@ -1,19 +1,50 @@
 package com.homan.homan.Models;
 
-import androidx.annotation.NonNull;
 import androidx.room.Entity;
-
-import java.util.Date;
+import androidx.room.PrimaryKey;
 
 @Entity
 public class Category {
-    private String type;
-    private String name;
-    private Date date;
+    @PrimaryKey(autoGenerate = true)
+    private int houseID;
+    private String userID;
+    private String categoryType;
+    private String date;
     private double amount;
-    private House houseId;
-    private  String note;
+    private String note;
     private String image;
+
+    public int getHouseID() {
+        return houseID;
+    }
+
+    public void setHouseID(int houseID) {
+        this.houseID = houseID;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+
+    public String getCategoryType() {
+        return categoryType;
+    }
+
+    public void setCategoryType(String categoryType) {
+        this.categoryType = categoryType;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
 
     public String getNote() {
         return note;
@@ -31,30 +62,6 @@ public class Category {
         this.image = image;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
     public double getAmount() {
         return amount;
     }
@@ -63,12 +70,4 @@ public class Category {
         this.amount = amount;
     }
 
-    @NonNull
-    public House getHouseId() {
-        return houseId;
-    }
-
-    public void setHouseId(@NonNull House houseId) {
-        this.houseId = houseId;
-    }
 }
