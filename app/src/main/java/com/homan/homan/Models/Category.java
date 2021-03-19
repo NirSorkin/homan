@@ -7,12 +7,18 @@ import androidx.room.PrimaryKey;
 public class Category {
     @PrimaryKey(autoGenerate = true)
     private int houseID;
-    private String userID;
+    private String userID;  //Name of the expenses for example Food -> Rami Levi
     private String categoryType;
     private String date;
     private double amount;
     private String note;
     private String image;
+
+    public Category(int houseID, String userID, String categoryType) {
+        this.houseID = houseID;
+        this.userID = userID;
+        this.categoryType = categoryType;
+    }
 
     public int getHouseID() {
         return houseID;

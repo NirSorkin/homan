@@ -9,7 +9,26 @@
         android:id="@+id/nav_home"
         android:name="com.homan.homan.ui.home.HomeFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_nav_home_to_carsListfrg2"
+            app:destination="@id/carsListfrg" />
+        <action
+            android:id="@+id/action_nav_home_to_foodFragment"
+            app:destination="@id/foodFragment" />
+        <action
+            android:id="@+id/action_nav_home_to_clothingFragment"
+            app:destination="@id/clothingFragment" />
+        <action
+            android:id="@+id/action_nav_home_to_houseHoldFragment"
+            app:destination="@id/houseHoldFragment" />
+        <action
+            android:id="@+id/action_nav_home_to_insurencesFragment"
+            app:destination="@id/insurencesFragment" />
+        <action
+            android:id="@+id/action_nav_home_to_otherFragment"
+            app:destination="@id/otherFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_gallery"
@@ -22,4 +41,35 @@
         android:name="com.homan.homan.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
+    <fragment
+        android:id="@+id/carsListfrg"
+        android:name="com.homan.homan.ui.CarsListfrg"
+        android:label="cars_listfrg_fragment"
+        tools:layout="@layout/cars_listfrg_fragment" />
+    <fragment
+        android:id="@+id/foodFragment"
+        android:name="com.homan.homan.ui.FoodFragment"
+        android:label="fragment_food"
+        tools:layout="@layout/fragment_food" />
+    <fragment
+        android:id="@+id/clothingFragment"
+        android:name="com.homan.homan.ui.ClothingFragment"
+        android:label="fragment_clothing"
+        tools:layout="@layout/fragment_clothing" />
+    <fragment
+        android:id="@+id/houseHoldFragment"
+        android:name="com.homan.homan.ui.HouseHoldFragment"
+        android:label="fragment_house_hold"
+        tools:layout="@layout/fragment_house_hold" />
+    <fragment
+        android:id="@+id/insurencesFragment"
+        android:name="com.homan.homan.ui.InsurencesFragment"
+        android:label="fragment_insurences"
+        tools:layout="@layout/fragment_insurences" />
+    <fragment
+        android:id="@+id/otherFragment"
+        android:name="com.homan.homan.ui.OtherFragment"
+        android:label="fragment_other"
+        tools:layout="@layout/fragment_other" />
+
 </navigation>
