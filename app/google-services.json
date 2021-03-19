@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "639914970675",
+    "project_id": "homne-project",
+    "storage_bucket": "homne-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:639914970675:android:0e7e5b949421d4dfa69d46",
+        "android_client_info": {
+          "package_name": "com.homan.homan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "639914970675-6d74dqmotua14l3n6pluop2r1lkc1bm9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVKxpIIDzJnQDve_FD9G_ty9JljK-Am3E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "639914970675-6d74dqmotua14l3n6pluop2r1lkc1bm9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
