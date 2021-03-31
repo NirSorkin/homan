@@ -12,5 +12,21 @@
     <string name="menu_slideshow">Slideshow</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="programming_languages">
+        <item>C#</item>
+        <item>C++</item>
+        <item>Pascal</item>
+        <item>C</item>
+        <item>JavaScript</item>
+    </string-array>
+
+    <string-array name="description">
+        <item>description</item>
+        <item>description</item>
+        <item>description</item>
+        <item>description</item>
+        <item>description</item>
+    </string-array>
+
     <string name="textview">TextView</string>
 </resources>

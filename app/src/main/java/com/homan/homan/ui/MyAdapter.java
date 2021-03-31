@@ -1,70 +1,65 @@
 package com.homan.homan.ui;
 
-import android.graphics.drawable.Drawable;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.homan.homan.Models.Category;
 import com.homan.homan.R;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
-    private Category[] categories;
+import java.util.ArrayList;
+import java.util.List;
 
-    public MyAdapter(Category[] categories) {
-        this.categories = categories;
-    }
-
-    // Create new views (invoked by the layout manager)
-    @Override
-    public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                   int viewType) {
-        // create a new view
-        View itemLayoutView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.activity_list_row, null);
-
-        // create ViewHolder
-
-        ViewHolder viewHolder = new ViewHolder(itemLayoutView);
-        return viewHolder;
-    }
-
-    // Replace the contents of a view (invoked by the layout manager)
-    @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int position) {
-
-        // - get data from your itemsData at this position
-        // - replace the contents of the view with that itemsData
-
-        viewHolder.txtViewTitle.setText(categories[position].getHouseID());
-        //viewHolder.imgViewIcon.setImageResource(categories[position].getImageUrl());
-        viewHolder.imgViewIcon.setImageResource(R.drawable.car);
-
-
-
-    }
-
-    // inner class to hold a reference to each item of RecyclerView
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-
-        public TextView txtViewTitle;
-        public ImageView imgViewIcon;
-
-        public ViewHolder(View itemLayoutView) {
-            super(itemLayoutView);
-            txtViewTitle = (TextView) itemLayoutView.findViewById(R.id.listrow_text_v);
-            imgViewIcon = (ImageView) itemLayoutView.findViewById(R.id.listrow_image_v);
+public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+    Context context;
+    String categoryType;
+    Category itemCategories[];
+    List<Category> typeArray = new ArrayList<>();
+    public MyAdapter(Context ct, Category categoryList[] , String type){
+        context = ct;
+        itemCategories = categoryList;
+        categoryType = type;
+        for(int i = 0; i < itemCategories.length; i++){
+            if(itemCategories[i].getCategoryType() == categoryType){
+                typeArray.add(itemCategories[i]);
+            }
         }
     }
 
+    @NonNull
+    @Override
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(R.layout.list_row, parent,false);
+        return new MyViewHolder(view);
+    }
 
-    // Return the size of your itemsData (invoked by the layout manager)
+    @Override
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        holder.description.setText(typeArray.get(position).getUserID());
+        holder.categorytext.setText(typeArray.get(position).getCategoryType());
+    }
+
     @Override
     public int getItemCount() {
-        return categories.length;
+        return typeArray.size();
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder{
+        TextView description , categorytext;
+        //TODO: add images
+        ImageView itemImage;
+        public MyViewHolder(@NonNull View itemView) {
+
+            super(itemView);
+            description = itemView.findViewById(R.id.descriptiontext);
+            categorytext = itemView.findViewById(R.id.categorytext);
+        }
     }
 }

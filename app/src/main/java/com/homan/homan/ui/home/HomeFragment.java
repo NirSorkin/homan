@@ -18,7 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import com.homan.homan.R;
-import com.homan.homan.ui.CarsListfrg;
+
 
 public class HomeFragment extends Fragment {
 
@@ -41,7 +41,7 @@ public class HomeFragment extends Fragment {
         carsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigation.findNavController(v).navigate(R.id.action_nav_home_to_carsListfrg2);
+                Navigation.findNavController(v).navigate(R.id.action_nav_home_to_carsFragment2);
             }
         });
 
