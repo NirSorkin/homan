@@ -14,20 +14,22 @@ import com.homan.homan.Models.Category;
 import com.homan.homan.R;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     Context context;
     String categoryType;
     Category itemCategories[];
+    List<Category> cList = new LinkedList<Category>();
     List<Category> typeArray = new ArrayList<>();
-    public MyAdapter(Context ct, Category categoryList[] , String type){
+    public MyAdapter(Context ct, List<Category> categoryListList , String type){
         context = ct;
-        itemCategories = categoryList;
+        cList = categoryListList;
         categoryType = type;
-        for(int i = 0; i < itemCategories.length; i++){
-            if(itemCategories[i].getCategoryType() == categoryType){
-                typeArray.add(itemCategories[i]);
+        for(int i = 0; i < cList.size(); i++){
+            if(cList.get(i).getCategoryType() == categoryType){
+                typeArray.add(cList.get(i));
             }
         }
     }

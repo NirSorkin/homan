@@ -1,110 +1,62 @@
-/*
+package com.homan.homan.Models;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
+import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
-
-import com.google.firebase.auth.FirebaseAuth;
-import com.homan.homan.Models.Category;
-import com.homan.homan.Models.ModelRoom;
 
 import java.util.List;
 
 public class Model {
-
     public final static Model instance = new Model();
+    private Model(){
 
-    //private final ModelFirebase modelFirebase = new ModelFirebase();
-    private final ModelRoom modelRoom = new ModelRoom();
+    }
 
-    private LiveData<List<Category>> categories;
+    public interface GetAllCategoriesListener{
+        void onComplete( List<Category> data);
+    }
 
-    private ProductModel() { }
+    public void getAllByCategory(GetAllCategoriesListener listener, String type){
+        class MyAsyncTask extends AsyncTask{
+            List<Category> data;
+            @Override
+            protected Object doInBackground(Object[] objects) {
+                 data = AppLocalDB.db.categoryDao().getByCategoryType(type);
+                return null;
+            }
 
-    public LiveData<List<Category>> getAll() {
-        if (categories == null) {
-            categories = modelRoom.getAll();
+            @Override
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+                listener.onComplete(data);
+            }
         }
-        fetchUpdatedDataFromFirebase(null);
-        return categories;
-    }
 
-    public LiveData<List<Category>> getAllByOwner() {
-        String ownerId = FirebaseAuth.getInstance().getUid();
-        LiveData<List<Category>> productsByOwner = modelRoom.getAllByOwnerId(ownerId);
-        //fetchUpdatedDataFromFirebase(null);
-        return productsByOwner;
-    }
+        MyAsyncTask task = new MyAsyncTask();
+        task.execute();
 
-    public interface UpdateListener {
+    }
+    public interface  AddItemListener{
         void onComplete();
     }
-    private void fetchUpdatedDataFromFirebase(UpdateListener listener) {
-        SharedPreferences sharedPreferences = MyApplication.context.getSharedPreferences("TAG", Context.MODE_PRIVATE);
-        long lastUpdated = sharedPreferences.getLong("lastUpdated", 0);
 
-      modelFirebase.getAll(lastUpdated, result -> {
-            long lastU = 0;
-            for (Product product : result) {
-                modelRoom.add(product, null);
-                if (product.getLastUpdated() > lastU) {
-                    lastU = product.getLastUpdated();
-                }
-                if (product.getRemoved()) {
-                    modelRoom.delete(product, null);
+    public void addItem(Category item, AddItemListener listener){
+        class MyAsyncTask extends AsyncTask {
+            @Override
+            protected Object doInBackground(Object[] objects) {
+                AppLocalDB.db.categoryDao().insertCategory(item);
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+                if(listener != null){
+                    listener.onComplete();
                 }
             }
-            sharedPreferences.edit().putLong("lastUpdated", lastU).apply();
-            if (listener != null) listener.onComplete();
-        })
-;
+        };
+        MyAsyncTask task = new MyAsyncTask();
+        task.execute();
     }
-
-    public interface GetByIdListener {
-        void onComplete(Category product);
-    }
-    public void getById(String id, GetByIdListener listener) {
-        modelRoom.getById(id, listener);
-    }
-
-    public interface AddListener {
-        void onComplete();
-    }
-
-
-  public void add(Category category, AddListener listener) {
-        modelFirebase.add(category, listener);
-    }
-
-
-   public interface EditListener {
-        void onComplete();
-    }
-
-    public void edit(Category oldVersion, Category newVersion, EditListener listener) {
-        delete(oldVersion, null);
-        add(newVersion, () -> {
-            fetchUpdatedDataFromFirebase(listener::onComplete);
-        });
-    }
-
-
-    public interface UploadImageListener {
-        void onComplete(String url);
-    }
-    public void uploadImage(Bitmap imageBmp, String name, UploadImageListener listener) {
-        modelFirebase.uploadImage(imageBmp, name, listener);
-    }
-
-    public interface DeleteListener {
-        void onComplete();
-    }
-    public void delete(Product product, DeleteListener listener) {
-        modelRoom.delete(product, null);
-        modelFirebase.delete(product, listener);
-    }
-
 }
-*/

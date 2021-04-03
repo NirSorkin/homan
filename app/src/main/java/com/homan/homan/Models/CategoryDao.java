@@ -13,13 +13,15 @@ import java.util.List;
 public interface CategoryDao {
 
     @Query("select * from Category")
-    LiveData<List<Category>> getAllCategories();
+    List<Category> getAllCategories();
 
    /* @Query("select * from Category where houseID == :houseID")
     LiveData<List<Category>> getByHouseID(int houseID);*/
 
     @Query("select * from Category where categoryType == :categoryType")
-    LiveData<List<Category>> getByCategoryType(String categoryType);
+    List<Category> getByCategoryType(String categoryType);
+
+
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertCategory(Category...categories);

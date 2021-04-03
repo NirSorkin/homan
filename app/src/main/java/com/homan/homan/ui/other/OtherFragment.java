@@ -17,8 +17,11 @@ import com.homan.homan.Models.Category;
 import com.homan.homan.R;
 import com.homan.homan.ui.MyAdapter;
 
-public class OtherFragment extends Fragment {
+import java.util.LinkedList;
+import java.util.List;
 
+public class OtherFragment extends Fragment {
+    List<Category> otherList = new LinkedList<Category>();
     RecyclerView carsList;
     MyAdapter myAdapter;
     //private CarsListfrgViewModel mViewModel;
@@ -47,7 +50,7 @@ public class OtherFragment extends Fragment {
 
         //recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        myAdapter = new MyAdapter(rootView.getContext(),itemCategories , "others");
+        myAdapter = new MyAdapter(rootView.getContext(),otherList , "others");
         recyclerView.setAdapter(myAdapter);
         //recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(new LinearLayoutManager(rootView.getContext()));

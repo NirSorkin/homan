@@ -17,9 +17,12 @@ import com.homan.homan.Models.Category;
 import com.homan.homan.R;
 import com.homan.homan.ui.MyAdapter;
 
+import java.util.LinkedList;
+import java.util.List;
+
 
 public class FoodFragment extends Fragment {
-
+    List<Category> foodList = new LinkedList<Category>();
     RecyclerView carsList;
     MyAdapter myAdapter;
     //private CarsListfrgViewModel mViewModel;
@@ -48,7 +51,7 @@ public class FoodFragment extends Fragment {
 
         //recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        myAdapter = new MyAdapter(rootView.getContext(),itemCategories , "food");
+        myAdapter = new MyAdapter(rootView.getContext(),foodList , "food");
         recyclerView.setAdapter(myAdapter);
         //recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(new LinearLayoutManager(rootView.getContext()));
