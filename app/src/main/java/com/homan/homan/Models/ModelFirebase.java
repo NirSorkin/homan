@@ -25,27 +25,33 @@ public class ModelFirebase {
     public void addItem(Category item, Model.AddItemListener listener) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        // Create a new user with a first and last name
+/*        // Create a new user with a first and last name
         Map<String, Object> user = new HashMap<>();
         user.put("first", "Ada");
         user.put("last", "Lovelace");
-        user.put("born", 1815);
+        user.put("born", 1815);*/
 
 // Add a new document with a generated ID
-        db.collection("users")
-                .add(user)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+        db.collection("Items").document(item.getUserID())
+                .set(item)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d("TAG", "DocumentSnapshot added with ID: " + documentReference.getId());
+                    public void onSuccess(Void aVoid) {
+                        Log.d("TAG", "Item added successfully");
+                        listener.onComplete();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w("TAG", "Error adding document", e);
+                        Log.d("TAG", "Error adding item");
+                        listener.onComplete();
                     }
                 });
 
+    }
+
+    public void updateItem(Category item, Model.UpdateItemListener listener) {
+        addItem(item , listener);
     }
 }

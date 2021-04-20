@@ -29,7 +29,11 @@ public class Model {
 
     public void addItem(Category item, AddItemListener listener){
         modelFirebase.addItem(item , listener);
+    }
 
+    public interface  UpdateItemListener extends  AddItemListener{}
 
+    public void updateItem(Category item, UpdateItemListener listener){
+        modelFirebase.updateItem(item , listener);
     }
 }
