@@ -3,12 +3,15 @@ package com.homan.homan;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
+import com.homan.homan.Models.Model;
 
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
@@ -52,13 +55,54 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
 
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
+        TextView DisplayNameTextView = findViewById(R.id.nav_header_user_name);
+        TextView emailTextView = findViewById(R.id.nav_header_user_email);
+        if (Model.users.isLoggedIn()) {
+            DisplayNameTextView.setText(Model.users.getDisplayName());
+            emailTextView.setText(Model.users.getEmail());
+        }
+
         return true;
     }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.main, menu);
+//        return true;
+//    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        boolean res = super.onPrepareOptionsMenu(menu);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        Menu mainMenu = navigationView.getMenu();
+        MenuItem authenticationMenuItem = mainMenu.findItem(R.id.nav_slideshow);
+        if (Model.users.isLoggedIn()) {
+            TextView displayNameTextView = findViewById(R.id.nav_header_user_name);
+            TextView emailTextView = findViewById(R.id.nav_header_user_email);
+            displayNameTextView.setText(Model.users.getDisplayName());
+            emailTextView.setText(Model.users.getEmail());
+
+            authenticationMenuItem.setTitle("Logout");
+            authenticationMenuItem.setOnMenuItemClickListener(item -> {
+                Model.users.signOut();
+                authenticationMenuItem.setTitle("Login");
+                displayNameTextView.setText("Anonymous");
+                emailTextView.setText("Not logged in");
+
+                return false;
+            });
+        } else {
+            authenticationMenuItem.setTitle("Login");
+        }
+        return res;
+    }
+
 
     @Override
     public boolean onSupportNavigateUp() {

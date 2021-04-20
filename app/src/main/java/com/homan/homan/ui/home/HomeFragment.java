@@ -1,5 +1,6 @@
 package com.homan.homan.ui.home;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
+import com.homan.homan.Models.Model;
 import com.homan.homan.R;
 
 
@@ -85,7 +87,26 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        if(!Model.users.isLoggedIn()) {
+            displayLoginAlertDialog(root);
+        }
 
         return root;
+    }
+
+    private void displayLoginAlertDialog(View view) {
+        AlertDialog ad = new AlertDialog.Builder(getActivity()).create();
+        ad.setCancelable(true);
+        ad.setTitle("Alert");
+        ad.setMessage("You need to login first");
+        ad.setButton("Login", (dialog, which) -> {
+            dialog.dismiss();
+            Navigation.findNavController(view).navigate(R.id.action_nav_home_to_nav_slideshow);
+        });
+        ad.setOnCancelListener(dialog -> {
+            dialog.dismiss();
+            Navigation.findNavController(view).popBackStack();
+        });
+        ad.show();
     }
 }
