@@ -50,6 +50,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     @Override
     public int getItemCount() {
+        if(typeArray== null){
+            return 0;
+        }
         return typeArray.size();
     }
 

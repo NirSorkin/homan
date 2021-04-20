@@ -6,10 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,16 +18,16 @@ import android.widget.ProgressBar;
 
 import com.homan.homan.Models.Category;
 import com.homan.homan.Models.Model;
+import com.homan.homan.Models.ModelSql;
 import com.homan.homan.R;
 import com.homan.homan.ui.MyAdapter;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 
 
 public class CarsFragment extends Fragment {
-    List<Category> c = new LinkedList<Category>();
+    List<Category> categoryList = new LinkedList<>();
     RecyclerView carsList;
     MyAdapter myAdapter;
     ProgressBar pb;
@@ -58,20 +56,16 @@ public class CarsFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_cars, container, false);
-        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.carsList);
+
+        RecyclerView recyclerView = rootView.findViewById(R.id.carsList);
         pb = rootView.findViewById(R.id.carslistprogressbar);
         pb.setVisibility(View.INVISIBLE);
         addBtn = rootView.findViewById(R.id.carsaddbutton);
-        addBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addNewItem();
-            }
-        });
+        addBtn.setOnClickListener(v -> addNewItem());
 
         //recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        myAdapter = new MyAdapter(rootView.getContext(), c , "Cars");
+        myAdapter = new MyAdapter(rootView.getContext(), categoryList, "Cars");
         recyclerView.setAdapter(myAdapter);
         //recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(new LinearLayoutManager(rootView.getContext()));
@@ -81,15 +75,13 @@ public class CarsFragment extends Fragment {
     }
 
     private void addNewItem() {
-        Random r = new Random();
-        int randomId = r.nextInt(111111 - 999999) + 111111;
-        Category newItem = new Category(2 , String.valueOf(randomId), "Cars");
-        Model.instance.addItem(newItem, new Model.AddItemListener() {
-            @Override
-            public void onComplete() {
-                reloadData();
-            }
-        });
+        addBtn.setEnabled(false);
+        int userId = 344443444;
+        int i = 2;
+        Category newItem = new Category(i , String.valueOf(userId), "Cars");
+
+        pb.setVisibility(View.VISIBLE);
+        Model.instance.addItem(newItem, () -> reloadData());
     }
 
     void reloadData(){
@@ -99,12 +91,13 @@ public class CarsFragment extends Fragment {
 
             @Override
             public void onComplete(List<Category> data) {
-                c = data;
+                categoryList = data;
                 for(Category ct : data){
-                    Log.d("TAG" , "category type" + ct.getCategoryType());
+                    Log.d("TAG" , "category type" +" " + ct.getCategoryType());
                 }
                 pb.setVisibility(View.INVISIBLE);
                 addBtn.setEnabled(true);
+                myAdapter.notifyDataSetChanged();
             }
         } , "Cars");
     }

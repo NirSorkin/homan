@@ -5,7 +5,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import com.homan.homan.*;
 
-@Database(entities = {Category.class}, version = 3 )
+@Database(entities = {Category.class}, version = 4 )
 abstract class AppLocalDBRepository extends RoomDatabase {
 
     public abstract CategoryDao categoryDao();

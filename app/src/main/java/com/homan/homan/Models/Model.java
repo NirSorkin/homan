@@ -8,6 +8,9 @@ import java.util.List;
 
 public class Model {
     public final static Model instance = new Model();
+    ModelFirebase modelFirebase = new ModelFirebase();
+    ModelSql modelSql = new ModelSql();
+
     private Model(){
 
     }
@@ -17,46 +20,16 @@ public class Model {
     }
 
     public void getAllByCategory(GetAllCategoriesListener listener, String type){
-        class MyAsyncTask extends AsyncTask{
-            List<Category> data;
-            @Override
-            protected Object doInBackground(Object[] objects) {
-                 data = AppLocalDB.db.categoryDao().getByCategoryType(type);
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Object o) {
-                super.onPostExecute(o);
-                listener.onComplete(data);
-            }
-        }
-
-        MyAsyncTask task = new MyAsyncTask();
-        task.execute();
-
+        modelFirebase.getAllByCategory(listener , type);
     }
+
     public interface  AddItemListener{
         void onComplete();
     }
 
     public void addItem(Category item, AddItemListener listener){
-        class MyAsyncTask extends AsyncTask {
-            @Override
-            protected Object doInBackground(Object[] objects) {
-                AppLocalDB.db.categoryDao().insertCategory(item);
-                return null;
-            }
+        modelFirebase.addItem(item , listener);
 
-            @Override
-            protected void onPostExecute(Object o) {
-                super.onPostExecute(o);
-                if(listener != null){
-                    listener.onComplete();
-                }
-            }
-        };
-        MyAsyncTask task = new MyAsyncTask();
-        task.execute();
+
     }
 }

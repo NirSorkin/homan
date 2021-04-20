@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/Add_page"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/image_uploader"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:scrollbarSize="10dp"
+        android:text="Upload Image"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@+id/input_desc"
+        tools:layout_editor_absoluteX="36dp" />
+
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="300sp"
+        android:layout_marginTop="180dp"
+        android:scrollbarSize="10dp"
+        android:text="Submit"
+        android:textSize="30sp"
+        app:layout_constraintTop_toBottomOf="@+id/input_desc"
+        tools:layout_editor_absoluteX="36dp" />
+
+    <EditText
+        android:id="@+id/input_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="85dp"
+        android:ems="10"
+        android:hint="Item Title"
+        android:inputType="textPersonName"
+        android:textSize="26sp"
+        app:layout_constraintTop_toTopOf="@+id/input_title"
+        tools:layout_editor_absoluteX="36dp" />
+
+    <EditText
+        android:id="@+id/input_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="85dp"
+        android:ems="10"
+        android:hint="Item Title"
+        android:inputType="textPersonName"
+        android:textSize="26sp"
+        app:layout_constraintTop_toTopOf="@+id/input_catagory"
+        tools:layout_editor_absoluteX="36dp" />
+
+    <EditText
+        android:id="@+id/input_catagory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="130dp"
+        android:ems="10"
+        android:hint="Catagory"
+        android:inputType="textPersonName"
+        android:textSize="26sp"
+        app:layout_constraintTop_toTopOf="@+id/textView2"
+        tools:layout_editor_absoluteX="36dp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="608dp"
+        android:text="Add Item"
+        android:textSize="50sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="94dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
