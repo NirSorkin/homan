@@ -76,8 +76,8 @@ public class CarsFragment extends Fragment {
 
     private void addNewItem() {
         addBtn.setEnabled(false);
-        int userId = 344443444;
-        int i = 2;
+        int userId = 78924;
+        int i = 3;
         Category newItem = new Category(i , String.valueOf(userId), "Cars");
 
         pb.setVisibility(View.VISIBLE);
@@ -87,19 +87,15 @@ public class CarsFragment extends Fragment {
     void reloadData(){
         pb.setVisibility(View.VISIBLE);
         addBtn.setEnabled(false);
-        Model.instance.getAllByCategory(new Model.GetAllCategoriesListener(){
-
-            @Override
-            public void onComplete(List<Category> data) {
-                categoryList = data;
-                for(Category ct : data){
-                    Log.d("TAG" , "category type" +" " + ct.getCategoryType());
-                }
-                pb.setVisibility(View.INVISIBLE);
-                addBtn.setEnabled(true);
-                myAdapter.notifyDataSetChanged();
+        Model.instance.getAllByCategory(data -> {
+            categoryList = data;
+            for(Category ct : data){
+                Log.d("TAG" , "category type" +" " + ct.getCategoryType());
             }
-        } , "Cars");
+            pb.setVisibility(View.INVISIBLE);
+            addBtn.setEnabled(true);
+            myAdapter.notifyDataSetChanged();
+        }, "Cars");
     }
 
     @Override

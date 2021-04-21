@@ -4,10 +4,15 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -18,21 +23,31 @@ import java.util.Map;
 
 public class ModelFirebase {
     public void getAllByCategory(Model.GetAllCategoriesListener listener, String type) {
-        List<Category> data = new LinkedList<Category>();
-        listener.onComplete(data);
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("Items")
+                .whereEqualTo(type, true)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        List<Category> data = new LinkedList<>();
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot document : task.getResult()) {
+                                Category ct = document.toObject(Category.class);
+                                data.add(ct);
+                            }
+                        }
+                        listener.onComplete(data);
+                    }
+                });
     }
+
+
 
     public void addItem(Category item, Model.AddItemListener listener) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-/*        // Create a new user with a first and last name
-        Map<String, Object> user = new HashMap<>();
-        user.put("first", "Ada");
-        user.put("last", "Lovelace");
-        user.put("born", 1815);*/
-
 // Add a new document with a generated ID
-        db.collection("Items").document(item.getUserID())
+        db.collection("Items").document(item.getCategoryType())
                 .set(item)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
