@@ -37,4 +37,9 @@ public class Model {
     public void updateItem(Category item, UpdateItemListener listener){
         modelFirebase.updateItem(item , listener);
     }
+
+    interface DeleteListener extends AddItemListener{}
+    public void deleteItem(Category ct , DeleteListener listener){
+    modelFirebase.deleteItem(ct ,listener);
+    }
 }

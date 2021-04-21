@@ -69,4 +69,16 @@ public class ModelFirebase {
     public void updateItem(Category item, Model.UpdateItemListener listener) {
         addItem(item , listener);
     }
+
+
+    public void deleteItem(Category ct, Model.DeleteListener listener) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection(ct.getCategoryType()).document(ct.getUserID()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                listener.onComplete();
+            }
+        });
+    }
 }
