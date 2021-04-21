@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -13,6 +14,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.homan.homan.Models.Category;
 import com.homan.homan.R;
@@ -26,6 +29,7 @@ public class HouseHoldFragment extends Fragment {
     List<Category> hHoldList = new LinkedList<Category>();
     RecyclerView carsList;
     MyAdapter myAdapter;
+    ProgressBar pb;
     //private CarsListfrgViewModel mViewModel;
     Category itemCategories[] =  {
             new Category(7, "56546" , "Cars"),
@@ -50,6 +54,8 @@ public class HouseHoldFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_house_hold, container, false);
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.houseList);
+        pb = rootView.findViewById(R.id.houseHoldlistprogressbar);
+        pb.setVisibility(View.INVISIBLE);
 
         //recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -57,6 +63,15 @@ public class HouseHoldFragment extends Fragment {
         recyclerView.setAdapter(myAdapter);
         //recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(new LinearLayoutManager(rootView.getContext()));
+
+        Button insurencesBtn = rootView.findViewById(R.id.houseHoldaddbutton);
+        insurencesBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(v).navigate(R.id.action_houseHoldFragment_to_addItemFragment2);
+            }
+        });
+
         return rootView;
     }
 

@@ -8,6 +8,7 @@ import java.util.List;
 
 public class Model {
     public final static Model instance = new Model();
+    public final static UserModel users = UserModel.instance;
     ModelFirebase modelFirebase = new ModelFirebase();
     ModelSql modelSql = new ModelSql();
 
