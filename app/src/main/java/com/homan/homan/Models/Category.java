@@ -3,6 +3,9 @@ package com.homan.homan.Models;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Entity
 public class Category {
     @PrimaryKey(autoGenerate = true)
@@ -11,13 +14,22 @@ public class Category {
     private String categoryType;
     private String date;
     private double amount;
-    private String note;
+    private String desc;
     private String image;
 
     public Category(int houseID, String userID, String categoryType) {
         this.houseID = houseID;
         this.userID = userID;
         this.categoryType = categoryType;
+    }
+    public Map<String, Object> toMap() {
+        return new HashMap<String, Object>() {{
+            put("id", userID);
+            put("ownerId", categoryType);
+            put("name", amount);
+            put("desc", desc);
+            put("image", image);
+        }};
     }
 
     public int getHouseID() {
@@ -52,12 +64,12 @@ public class Category {
         this.date = date;
     }
 
-    public String getNote() {
-        return note;
+    public String getDesc() {
+        return desc;
     }
 
-    public void setNote(String note) {
-        this.note = note;
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
     public String getImage() {
