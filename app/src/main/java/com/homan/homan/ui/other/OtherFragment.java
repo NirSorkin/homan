@@ -29,16 +29,7 @@ public class OtherFragment extends Fragment {
     MyAdapter myAdapter;
     ProgressBar pb;
     //private CarsListfrgViewModel mViewModel;
-    Category itemCategories[] =  {
-            new Category(7, "56546" , "Cars"),
-            new Category(7, "45645456" , "Cars"),
-            new Category(67, "5654456" , "food"),
-            new Category(434, "565454546" , "others"),
-            new Category(234, "5654645" , "clothing"),
-            new Category(234, "5654645" , "insurences"),
-            new Category(234, "5654645" , "insurences"),
-            new Category(5, "5654456" , "houseHold")
-    };
+
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
 

@@ -25,7 +25,7 @@ import java.util.Map;
 public class ModelFirebase {
     public void getAllByCategory(Model.GetAllCategoriesListener listener, String type) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("Items")
+        db.collection(UserModel.instance.getEmail())
                 .whereEqualTo(type, true)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -48,7 +48,7 @@ public class ModelFirebase {
     public void addItem(Category item, Model.AddItemListener listener) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 // Add a new document with a generated ID
-        db.collection("Items").document(item.getCategoryType())
+        db.collection(UserModel.instance.getEmail()).document(item.getCategoryType()).collection(item.getDesc()).document(item.getDate())
                 .set(item)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override

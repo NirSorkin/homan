@@ -30,7 +30,7 @@ public class ClothingFragment extends Fragment {
     MyAdapter myAdapter;
     ProgressBar pb;
     //private CarsListfrgViewModel mViewModel;
-    Category itemCategories[] =  {
+/*    Category itemCategories[] =  {
             new Category(7, "56546" , "Cars"),
             new Category(7, "45645456" , "Cars"),
             new Category(67, "5654456" , "food"),
@@ -39,7 +39,7 @@ public class ClothingFragment extends Fragment {
             new Category(234, "5654645" , "insurences"),
             new Category(234, "5654645" , "insurences"),
             new Category(5, "5654456" , "houseHold")
-    };
+    };*/
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
 

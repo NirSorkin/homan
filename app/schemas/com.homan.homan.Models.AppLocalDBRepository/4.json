@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 4,
-    "identityHash": "687c475a7058fb9047e92b119dc9c738",
+    "identityHash": "611f16ee1b8c98d8e78e3b035fdbd958",
     "entities": [
       {
         "tableName": "Category",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`houseID` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `userID` TEXT, `categoryType` TEXT, `date` TEXT, `amount` REAL NOT NULL, `desc` TEXT, `image` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`houseID` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `userID` TEXT, `categoryType` TEXT, `date` TEXT, `amount` TEXT, `desc` TEXT, `image` TEXT)",
         "fields": [
           {
             "fieldPath": "houseID",
@@ -35,8 +35,8 @@
           {
             "fieldPath": "amount",
             "columnName": "amount",
-            "affinity": "REAL",
-            "notNull": true
+            "affinity": "TEXT",
+            "notNull": false
           },
           {
             "fieldPath": "desc",
@@ -64,7 +64,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '687c475a7058fb9047e92b119dc9c738')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '611f16ee1b8c98d8e78e3b035fdbd958')"
     ]
   }
 }

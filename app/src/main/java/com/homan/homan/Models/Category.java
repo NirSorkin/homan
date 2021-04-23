@@ -13,21 +13,25 @@ public class Category {
     private String userID;  //Name of the expenses for example Food -> Rami Levi
     private String categoryType;
     private String date;
-    private double amount;
+    private String amount;
     private String desc;
     private String image;
 
-    public Category(int houseID, String userID, String categoryType) {
-        this.houseID = houseID;
+    public Category(String userID, String categoryType , String amount , String desc) {
         this.userID = userID;
         this.categoryType = categoryType;
+        this.amount = amount;
+        this.desc = desc;
     }
+
+    public Category() { }
+
     public Map<String, Object> toMap() {
         return new HashMap<String, Object>() {{
-            put("id", userID);
-            put("ownerId", categoryType);
-            put("name", amount);
-            put("desc", desc);
+            put("UserID", userID);
+            put("CategoryType", categoryType);
+            put("Amount", amount);
+            put("Description", desc);
             put("image", image);
         }};
     }
@@ -80,11 +84,11 @@ public class Category {
         this.image = image;
     }
 
-    public double getAmount() {
+    public String getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(String amount) {
         this.amount = amount;
     }
 

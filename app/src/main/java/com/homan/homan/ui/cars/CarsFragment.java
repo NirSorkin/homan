@@ -86,10 +86,7 @@ public class CarsFragment extends Fragment {
 
     private void addNewItem() {
         addBtn.setEnabled(false);
-        int userId = 78924;
-        int i = 3;
-        Category newItem = new Category(i , String.valueOf(userId), "Cars");
-
+        Category newItem = new Category();
         pb.setVisibility(View.VISIBLE);
         Model.instance.addItem(newItem, () -> reloadData());
     }

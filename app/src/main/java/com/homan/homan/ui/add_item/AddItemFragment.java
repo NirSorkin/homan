@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -25,6 +26,7 @@ import com.homan.homan.R;
 import com.homan.homan.ui.MyAdapter;
 import com.homan.homan.ui.cars.CarsFragment;
 
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -50,21 +52,30 @@ public class AddItemFragment extends Fragment {
         inputDescription = rootView.findViewById(R.id.input_description);
         inputAmount = rootView.findViewById(R.id.input_amount);
         submitButton = rootView.findViewById(R.id.submit);
-        submitButton.setOnClickListener(v -> addNewItem());
+        submitButton.setOnClickListener(v -> addNewItem("Cars"));
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         return rootView;
     }
-        private void addNewItem() {
+        private void addNewItem(String type) {
+            Category ct = new Category();
             submitButton.setEnabled(false);
             String userId = UserModel.instance.getEmail();
-            int houseId = 777;
-            Category newItem = new Category(houseId , userId, "Cars");
-
+            ct.setAmount(inputAmount.getText().toString());
+            ct.setDesc(inputDescription.getText().toString());
+            ct.setUserID(userId);
             pb.setVisibility(View.VISIBLE);
-            Model.instance.addItem(newItem, () -> reloadData());
+            ct.setCategoryType(type);
+            Calendar c = Calendar.getInstance();
+            int mYear = c.get(Calendar.YEAR);
+            int mMonth = c.get(Calendar.MONTH);
+            int mDay = c.get(Calendar.DAY_OF_MONTH);
+            String CurrentDate = mDay + "." + mMonth + "." + mYear;
+            ct.setDate(CurrentDate);
+            Model.instance.addItem(ct, () -> reloadData(ct.getCategoryType()));
 
         }
 
-        void reloadData() {
+        void reloadData(String type) {
             pb.setVisibility(View.VISIBLE);
             submitButton.setEnabled(false);
             Model.instance.getAllByCategory(data -> {
