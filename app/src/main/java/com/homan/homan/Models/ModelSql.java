@@ -2,19 +2,25 @@ package com.homan.homan.Models;
 
 import android.os.AsyncTask;
 
+import androidx.lifecycle.LiveData;
+
 import java.util.List;
 
 public class ModelSql {
 
     public static ModelSql instance;
 
+
+    public LiveData<List<Category>> getAll() {
+        return AppLocalDB.db.categoryDao().getByCategoryType("Cars");
+    }
     public interface GetAllCategoriesListener{
         void onComplete( List<Category> data);
     }
 
     public void getAllByCategory(Model.GetAllCategoriesListener listener, String type){
         class MyAsyncTask extends AsyncTask{
-            List<Category> data;
+            LiveData<List<Category>> data;
             @Override
             protected Object doInBackground(Object[] objects) {
                 data = AppLocalDB.db.categoryDao().getByCategoryType(type);
@@ -37,7 +43,7 @@ public class ModelSql {
         void onComplete();
     }
 
-    public void addItem(Category item, Model.AddItemListener listener){
+    public void addItem(Category item, AddItemListener listener){
         class MyAsyncTask extends AsyncTask {
             @Override
             protected Object doInBackground(Object[] objects) {
@@ -53,6 +59,26 @@ public class ModelSql {
                 }
             }
         };
+        MyAsyncTask task = new MyAsyncTask();
+        task.execute();
+    }
+
+    public interface DeleteListener {
+        void onComplete();
+    }
+    public void delete(Category ct, DeleteListener listener) {
+        class MyAsyncTask extends AsyncTask {
+            @Override
+            protected Object doInBackground(Object[] objects) {
+                AppLocalDB.db.categoryDao().deleteCategory(ct);
+                return null;
+            }
+            @Override
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+                if (listener != null) listener.onComplete();
+            }
+        }
         MyAsyncTask task = new MyAsyncTask();
         task.execute();
     }

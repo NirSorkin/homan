@@ -3,27 +3,49 @@ package com.homan.homan.Models;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.SetOptions;
 
-import java.util.HashMap;
+import java.sql.Timestamp;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-
 
 
 public class ModelFirebase {
-    public void getAllByCategory(Model.GetAllCategoriesListener listener, String type) {
+
+    public interface GetAllListener {
+        void onComplete(List<Category> categories);
+    }
+    public void getAll(Long lastUpdated, GetAllListener listener,String type) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Timestamp timestamp = new Timestamp(lastUpdated);
+        List<Category> categories = new LinkedList<>();
+        db.collection("Users").document(UserModel.instance.getEmail()).collection(type).whereGreaterThanOrEqualTo("lastUpdated", timestamp).get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    Log.d("TAG", "***Getting categories from Firebase***");
+                    for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                        Category ct = new Category();
+                        ct.fromMap(doc.getData());
+                        categories.add(ct);
+                        //Log.d("TAG", ct.getDesc());
+                    }
+                    listener.onComplete(categories);
+                })
+                .addOnFailureListener(e -> listener.onComplete(categories));
+    }
+
+
+
+
+/*    public void getAllByCategory(Model.GetAllCategoriesListener listener, String type) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection(UserModel.instance.getEmail())
                 .whereEqualTo(type, true)
@@ -31,7 +53,7 @@ public class ModelFirebase {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        List<Category> data = new LinkedList<>();
+                        LiveData<List<Category>> data = new LinkedList<>();
                         if (task.isSuccessful()) {
                             for (DocumentSnapshot document : task.getResult()) {
                                 Category ct = document.toObject(Category.class);
@@ -41,14 +63,14 @@ public class ModelFirebase {
                         listener.onComplete(data);
                     }
                 });
-    }
+    }*/
 
 
 
     public void addItem(Category item, Model.AddItemListener listener) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-// Add a new document with a generated ID
-        db.collection(UserModel.instance.getEmail()).document(item.getCategoryType()).collection(item.getDesc()).document(item.getDate())
+        // Add a new document with a generated ID
+        db.collection("Users").document(UserModel.instance.getEmail()).collection(item.getCategoryType()).document(item.getDesc())
                 .set(item)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override

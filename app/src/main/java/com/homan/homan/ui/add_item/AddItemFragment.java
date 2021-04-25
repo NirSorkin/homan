@@ -8,23 +8,17 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.homan.homan.Models.Category;
 import com.homan.homan.Models.Model;
 import com.homan.homan.Models.UserModel;
 import com.homan.homan.R;
 import com.homan.homan.ui.MyAdapter;
-import com.homan.homan.ui.cars.CarsFragment;
 
 import java.util.Calendar;
 import java.util.LinkedList;
@@ -49,6 +43,7 @@ public class AddItemFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_add_item, container, false);
         pb = rootView.findViewById(R.id.progressBar);
+        pb.setVisibility(View.INVISIBLE);
         inputDescription = rootView.findViewById(R.id.input_description);
         inputAmount = rootView.findViewById(R.id.input_amount);
         submitButton = rootView.findViewById(R.id.submit);
@@ -71,22 +66,14 @@ public class AddItemFragment extends Fragment {
             int mDay = c.get(Calendar.DAY_OF_MONTH);
             String CurrentDate = mDay + "." + mMonth + "." + mYear;
             ct.setDate(CurrentDate);
-            Model.instance.addItem(ct, () -> reloadData(ct.getCategoryType()));
+            Model.instance.addItem(ct,  () -> reloadData(ct.getCategoryType()));
 
         }
 
         void reloadData(String type) {
             pb.setVisibility(View.VISIBLE);
             submitButton.setEnabled(false);
-            Model.instance.getAllByCategory(data -> {
-                categoryList = data;
-                for (Category ct : data) {
-                    Log.d("TAG", "category type" + " " + ct.getCategoryType());
-                }
-                pb.setVisibility(View.INVISIBLE);
-                submitButton.setEnabled(true);
-
-            }, "Cars");
+            Model.instance.getAll( "Cars");
         }
 
     @Override

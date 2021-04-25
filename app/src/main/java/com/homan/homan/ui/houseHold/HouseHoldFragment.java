@@ -52,7 +52,7 @@ public class HouseHoldFragment extends Fragment {
 
         //recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        myAdapter = new MyAdapter(rootView.getContext(),hHoldList , "houseHold");
+       // myAdapter = new MyAdapter(rootView.getContext(), "houseHold");
         recyclerView.setAdapter(myAdapter);
         //recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(new LinearLayoutManager(rootView.getContext()));

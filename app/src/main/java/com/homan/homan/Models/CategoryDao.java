@@ -13,13 +13,13 @@ import java.util.List;
 public interface CategoryDao {
 
     @Query("select * from Category")
-    List<Category> getAllCategories();
+    LiveData<List<Category>> getAllCategories();
 
    /* @Query("select * from Category where houseID == :houseID")
     LiveData<List<Category>> getByHouseID(int houseID);*/
 
     @Query("select * from Category where categoryType == :categoryType")
-    List<Category> getByCategoryType(String categoryType);
+    LiveData<List<Category>> getByCategoryType(String categoryType);
 
 
 
