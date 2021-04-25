@@ -83,17 +83,9 @@ public class EditItemFragment extends Fragment {
     }
 
     void reloadData(String type) {
-//            pb.setVisibility(View.VISIBLE);
+        pb.setVisibility(View.VISIBLE);
         saveButton.setEnabled(false);
-        Model.instance.getAllByCategory(data -> {
-            categoryList = data;
-            for (Category ct : data) {
-                Log.d("TAG", "category type" + " " + ct.getCategoryType());
-            }
-            pb.setVisibility(View.INVISIBLE);
-            saveButton.setEnabled(true);
-
-        }, "Cars");
+        Model.instance.getAll( "Cars");
     }
 
     private void displaySuccessAlertDialog(View view) {

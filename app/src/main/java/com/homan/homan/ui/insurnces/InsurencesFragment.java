@@ -47,7 +47,7 @@ public class InsurencesFragment extends Fragment {
 
         //recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        myAdapter = new MyAdapter(rootView.getContext(),insurencesList  , "insurences");
+        //myAdapter = new MyAdapter(rootView.getContext(), "insurences");
         recyclerView.setAdapter(myAdapter);
         //recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(new LinearLayoutManager(rootView.getContext()));

@@ -105,19 +105,11 @@ public class AddItemFragment extends Fragment {
 //            reloadData("Cars");
         }
 
-        void reloadData(String type) {
-//            pb.setVisibility(View.VISIBLE);
-            saveButton.setEnabled(false);
-            Model.instance.getAllByCategory(data -> {
-                categoryList = data;
-                for (Category ct : data) {
-                    Log.d("TAG", "category type" + " " + ct.getCategoryType());
-                }
-                pb.setVisibility(View.INVISIBLE);
-                saveButton.setEnabled(true);
-
-            }, "Cars");
-        }
+    void reloadData(String type) {
+        pb.setVisibility(View.VISIBLE);
+        saveButton.setEnabled(false);
+        Model.instance.getAll( "Cars");
+    }
 
     private void displaySuccessAlertDialog(View view) {
         AlertDialog ad = new AlertDialog.Builder(getActivity()).create();

@@ -34,8 +34,6 @@ public class FoodFragment extends Fragment {
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
 
-
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -48,7 +46,7 @@ public class FoodFragment extends Fragment {
 
         //recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        myAdapter = new MyAdapter(rootView.getContext(),foodList , "food");
+        //myAdapter = new MyAdapter(rootView.getContext(), "food");
         recyclerView.setAdapter(myAdapter);
         //recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(new LinearLayoutManager(rootView.getContext()));
