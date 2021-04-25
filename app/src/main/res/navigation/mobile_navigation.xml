@@ -51,7 +51,7 @@
     <fragment
         android:id="@+id/foodFragment"
         android:name="com.homan.homan.ui.food.FoodFragment"
-        android:label="fragment_food"
+        android:label="Food"
         tools:layout="@layout/fragment_food" >
         <action
             android:id="@+id/action_foodFragment_to_addItemFragment2"
@@ -60,7 +60,7 @@
     <fragment
         android:id="@+id/clothingFragment"
         android:name="com.homan.homan.ui.clothing.ClothingFragment"
-        android:label="fragment_clothing"
+        android:label="Clothing"
         tools:layout="@layout/fragment_clothing" >
         <action
             android:id="@+id/action_clothingFragment_to_addItemFragment2"
@@ -69,7 +69,7 @@
     <fragment
         android:id="@+id/houseHoldFragment"
         android:name="com.homan.homan.ui.houseHold.HouseHoldFragment"
-        android:label="fragment_house_hold"
+        android:label="Household"
         tools:layout="@layout/fragment_house_hold" >
         <action
             android:id="@+id/action_houseHoldFragment_to_addItemFragment2"
@@ -78,7 +78,7 @@
     <fragment
         android:id="@+id/insurencesFragment"
         android:name="com.homan.homan.ui.insurnces.InsurencesFragment"
-        android:label="fragment_insurences"
+        android:label="Insurences"
         tools:layout="@layout/fragment_insurences" >
         <action
             android:id="@+id/action_insurencesFragment_to_addItemFragment2"
@@ -87,7 +87,7 @@
     <fragment
         android:id="@+id/otherFragment"
         android:name="com.homan.homan.ui.other.OtherFragment"
-        android:label="fragment_other"
+        android:label="Other"
         tools:layout="@layout/fragment_other" >
         <action
             android:id="@+id/action_otherFragment_to_addItemFragment2"
@@ -101,11 +101,27 @@
         <action
             android:id="@+id/action_carsFragment2_to_addItemFragment2"
             app:destination="@id/addItemFragment2" />
+        <action
+            android:id="@+id/action_carsFragment2_to_editItemFragment"
+            app:destination="@id/editItemFragment" />
     </fragment>
     <fragment
         android:id="@+id/addItemFragment2"
         android:name="com.homan.homan.ui.add_item.AddItemFragment"
-        android:label="fragment_add_item"
-        tools:layout="@layout/fragment_add_item" />
+        android:label="Add Item"
+        tools:layout="@layout/fragment_add_item" >
+        <action
+            android:id="@+id/action_addItemFragment2_to_carsFragment22"
+            app:destination="@id/carsFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/editItemFragment"
+        android:name="com.homan.homan.ui.edit_item.EditItemFragment"
+        android:label="Edit item"
+        tools:layout="@layout/fragment_edit_item" >
+        <action
+            android:id="@+id/action_editItemFragment_to_carsFragment2"
+            app:destination="@id/carsFragment2" />
+    </fragment>
 
 </navigation>

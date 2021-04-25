@@ -23,6 +23,9 @@ import java.util.Map;
 
 
 public class ModelFirebase {
+
+    public final static ModelFirebase instance = new ModelFirebase();
+
     public void getAllByCategory(Model.GetAllCategoriesListener listener, String type) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection(UserModel.instance.getEmail())

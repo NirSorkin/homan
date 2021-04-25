@@ -23,6 +23,7 @@ import com.homan.homan.Models.Model;
 import com.homan.homan.Models.ModelSql;
 import com.homan.homan.R;
 import com.homan.homan.ui.MyAdapter;
+import com.homan.homan.ui.add_item.AddItemFragment;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -34,6 +35,7 @@ public class CarsFragment extends Fragment {
     MyAdapter myAdapter;
     ProgressBar pb;
     Button addBtn;
+    Button editBtn;
 
     //private CarsListfrgViewModel mViewModel;
 
@@ -64,6 +66,7 @@ public class CarsFragment extends Fragment {
         pb.setVisibility(View.INVISIBLE);
         addBtn = rootView.findViewById(R.id.carsaddbutton);
         addBtn.setOnClickListener(v -> addNewItem());
+        editBtn = rootView.findViewById(R.id.carseditbutton);
 
         //recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -72,11 +75,26 @@ public class CarsFragment extends Fragment {
         //recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(new LinearLayoutManager(rootView.getContext()));
 
-        Button insurencesBtn = rootView.findViewById(R.id.carsaddbutton);
-        insurencesBtn.setOnClickListener(new View.OnClickListener() {
+//        Button insurencesBtn = rootView.findViewById(R.id.carsaddbutton);
+//        insurencesBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Bundle bundle = new Bundle();
+//                bundle.putString("fromAddButton", "true");
+//                Navigation.findNavController(v).navigate(R.id.action_carsFragment2_to_addItemFragment2, bundle);
+//            }
+//        });
+        addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Navigation.findNavController(v).navigate(R.id.action_carsFragment2_to_addItemFragment2);
+            }
+        });
+
+        editBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(v).navigate(R.id.action_carsFragment2_to_editItemFragment);
             }
         });
 
