@@ -35,6 +35,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
         android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.51"
@@ -149,35 +150,6 @@
         </LinearLayout>
 
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/homeMonthlyBalance_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Monthly Balance"
-        android:textSize="30dp"
-        app:layout_constraintBottom_toTopOf="@+id/homeIncomes_btn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
-
-    <Button
-        android:id="@+id/homeIncomes_btn"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="14dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="40dp"
-        android:text="Incomes"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/homeMonthlyBalance_btn" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

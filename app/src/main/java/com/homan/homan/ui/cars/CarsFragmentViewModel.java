@@ -1,5 +1,7 @@
 package com.homan.homan.ui.cars;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -12,6 +14,7 @@ public  class CarsFragmentViewModel extends ViewModel {
     private LiveData<List<Category>> mCarsList;
 
     public CarsFragmentViewModel() {
+        Log.d("TAG","StudentListViewModel");
         mCarsList = Model.instance.getAll("Cars");
     }
 

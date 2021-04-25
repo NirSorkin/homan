@@ -36,16 +36,16 @@ public class Model {
 
         modelFirebase.getAll(lastUpdated, result -> {
             long lastU = 0;
-            for (Category ct : result) /*{
+            for (Category ct : result) {
                 modelSql.addItem(ct, null);
                 if (ct.getLastUpdated() > lastU) {
                     lastU = ct.getLastUpdated();
                 }
-                if (ct.getRemoved()) {
+             /*   if (ct.getRemoved()) {
                     modelSql.delete(ct, null);
-                }
-            }*/
-            sharedPreferences.edit().putLong("lastUpdated", lastU).apply();
+                }*/
+            }
+            sharedPreferences.edit().putLong("lastUpdated", lastU).commit();
             if (listener != null) listener.onComplete();
         },type);
     }
