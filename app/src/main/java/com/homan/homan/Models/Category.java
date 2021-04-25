@@ -50,7 +50,7 @@ public class Category {
         desc = (String) map.get("desc");
         image = (String) map.get("image");
         isRemoved = (Boolean) map.get("removed");
-        //lastUpdated = ((Timestamp) map.get("lastUpdated")).toDate().getTime();
+        lastUpdated = ((Timestamp) map.get("lastUpdated")).toDate().getTime();
     }
 
     public int getHouseID() {
