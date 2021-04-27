@@ -60,12 +60,7 @@ public class CarsFragment extends Fragment {
         //recyclerView.setItemAnimator(new DefaultItemAnimator());
         //carsListRecycler.setLayoutManager(new LinearLayoutManager(rootView.getContext()));
         Button insurencesBtn = rootView.findViewById(R.id.carsaddbutton);
-        insurencesBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(v).navigate(R.id.action_carsFragment2_to_addItemFragment2);
-            }
-        });
+        insurencesBtn.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_carsFragment2_to_addItemFragment2));
         //reloadData();
         viewModel.getList().observe(getViewLifecycleOwner(), categories -> mAdapter.notifyDataSetChanged());
         return rootView;

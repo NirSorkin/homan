@@ -124,4 +124,6 @@ public class Category {
         this.lastUpdated = lastUpdated;
     }
 
+    public void setLastUpdated(FieldValue serverTimestamp) {
+    }
 }

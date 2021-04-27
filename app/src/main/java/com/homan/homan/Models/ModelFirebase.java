@@ -35,7 +35,7 @@ public class ModelFirebase {
                         Category ct = new Category();
                         ct.fromMap(doc.getData());
                         categories.add(ct);
-                        //Log.d("TAG", ct.getDesc());
+                        Log.d("TAG", ct.getDesc());
                     }
                     listener.onComplete(categories);
                 })
@@ -71,7 +71,7 @@ public class ModelFirebase {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         // Add a new document with a generated ID
         db.collection("Users").document(UserModel.instance.getEmail()).collection(item.getCategoryType()).document(item.getDesc())
-                .set(item)
+                .set(item.toMap())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

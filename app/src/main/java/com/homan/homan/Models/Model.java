@@ -45,7 +45,7 @@ public class Model {
                     modelSql.delete(ct, null);
                 }*/
             }
-            sharedPreferences.edit().putLong("lastUpdated", lastU).commit();
+            sharedPreferences.edit().putLong("lastUpdated", lastU).apply();
             if (listener != null) listener.onComplete();
         },type);
     }
