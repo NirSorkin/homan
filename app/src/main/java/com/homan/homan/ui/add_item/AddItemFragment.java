@@ -21,6 +21,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.firestore.FieldValue;
 import com.homan.homan.Models.Category;
 import com.homan.homan.Models.Model;
 import com.homan.homan.Models.ModelFirebase;
@@ -98,6 +99,7 @@ public class AddItemFragment extends Fragment {
             int mDay = c.get(Calendar.DAY_OF_MONTH);
             String CurrentDate = mDay + "." + mMonth + "." + mYear;
             ct.setDate(CurrentDate);
+
 //            ModelFirebase.instance.addItem(ct, () -> reloadData(ct.getCategoryType()));
             Model.instance.addItem(ct, () -> reloadData(ct.getCategoryType()));
             saveButton.setEnabled(false);

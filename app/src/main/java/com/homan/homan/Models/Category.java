@@ -125,4 +125,6 @@ public class Category implements Serializable {
         this.lastUpdated = lastUpdated;
     }
 
+    public void setLastUpdated(FieldValue serverTimestamp) {
+    }
 }
