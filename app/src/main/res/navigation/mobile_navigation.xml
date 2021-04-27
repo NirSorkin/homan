@@ -122,6 +122,9 @@
         <action
             android:id="@+id/action_editItemFragment_to_carsFragment2"
             app:destination="@id/carsFragment2" />
+        <argument
+            android:name="itemID"
+            app:argType="com.homan.homan.Models.Category" />
     </fragment>
 
 </navigation>

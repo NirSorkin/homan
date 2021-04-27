@@ -1,6 +1,8 @@
 package com.homan.homan.ui;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,11 +21,13 @@ import com.homan.homan.Models.Model;
 import com.homan.homan.R;
 import com.homan.homan.ui.cars.CarsFragmentDirections;
 import com.homan.homan.ui.cars.CarsFragmentViewModel;
+import com.homan.homan.ui.edit_item.EditItemFragment;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
@@ -76,10 +80,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
         @Override
         public void onClick(View v) {
-            String itemId = mViewModel.getList().getValue().get(getLayoutPosition()).getDesc();
+//            String itemId = mViewModel.getList().getValue().get(getLayoutPosition()).toString();
+            Category item = mViewModel.getList().getValue().get(getLayoutPosition());
+//            String itemAmount = item.getAmount();
+//            String itemDesc = item.getDesc();
             if (mViewModel instanceof CarsFragmentViewModel) {
                 Navigation.findNavController(v)
-                        .navigate(CarsFragmentDirections.actionCarsFragment2ToAddItemFragment2());
+                        .navigate(CarsFragmentDirections.actionCarsFragment2ToEditItemFragment(item));
             }
         }
     }

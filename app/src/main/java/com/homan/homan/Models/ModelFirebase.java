@@ -93,14 +93,33 @@ public class ModelFirebase {
     }
 
 
-    public void deleteItem(Category ct, Model.DeleteListener listener) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+    public void deleteItem(Category item, Model.DeleteListener listener) {
+//        FirebaseFirestore db = FirebaseFirestore.getInstance();
+//
+//        db.collection(ct.getCategoryType()).document(ct.getUserID()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+//            @Override
+//            public void onComplete(@NonNull Task<Void> task) {
+//                listener.onComplete();
+//            }
+//        });
 
-        db.collection(ct.getCategoryType()).document(ct.getUserID()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                listener.onComplete();
-            }
-        });
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        // Add a new document with a generated ID
+        db.collection("Users").document(UserModel.instance.getEmail()).collection(item.getCategoryType()).document(item.getDesc())
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("TAG", "Item deleted successfully");
+                        listener.onComplete();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("TAG", "Error deleting item");
+                        listener.onComplete();
+                    }
+                });
     }
 }

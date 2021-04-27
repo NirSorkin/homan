@@ -26,6 +26,7 @@ import com.homan.homan.Models.Model;
 import com.homan.homan.R;
 import com.homan.homan.ui.MyAdapter;
 
+import java.io.Serializable;
 import java.util.List;
 
 
@@ -59,8 +60,8 @@ public class CarsFragment extends Fragment {
         //carsListRecycler.setAdapter(mAdapter);
         //recyclerView.setItemAnimator(new DefaultItemAnimator());
         //carsListRecycler.setLayoutManager(new LinearLayoutManager(rootView.getContext()));
-        Button insurencesBtn = rootView.findViewById(R.id.carsaddbutton);
-        insurencesBtn.setOnClickListener(new View.OnClickListener() {
+        Button addBtn = rootView.findViewById(R.id.carsaddbutton);
+        addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Navigation.findNavController(v).navigate(R.id.action_carsFragment2_to_addItemFragment2);

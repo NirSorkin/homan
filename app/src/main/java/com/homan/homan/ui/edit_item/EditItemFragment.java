@@ -39,8 +39,10 @@ public class EditItemFragment extends Fragment {
     MyAdapter myAdapter;
     ProgressBar pb;
     Button saveButton;
+    Button deleteButton;
     EditText inputAmount;
     EditText inputDescription;
+    Category item;
 
     public static EditItemFragment newInstance() {
         return new EditItemFragment();
@@ -52,34 +54,50 @@ public class EditItemFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_edit_item, container, false);
         pb = rootView.findViewById(R.id.progressBar);
         pb.setVisibility(View.INVISIBLE);
+        item = EditItemFragmentArgs.fromBundle(getArguments()).getItemID();
+        Category oldItem = EditItemFragmentArgs.fromBundle(getArguments()).getItemID();
         inputDescription = rootView.findViewById(R.id.input_description);
         inputAmount = rootView.findViewById(R.id.input_amount);
+        inputDescription.setText(item.getDesc());
+        inputAmount.setText(item.getAmount());
         saveButton = rootView.findViewById(R.id.save);
-        saveButton.setOnClickListener(v -> addNewItem("Cars", rootView));
+        saveButton.setOnClickListener(v -> EditItem(item, rootView));
+        deleteButton = rootView.findViewById(R.id.delete);
+        deleteButton.setOnClickListener(v -> DeleteItem(item, rootView));
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 //        Navigation.findNavController(rootView).navigate(R.id.action_carsFragment2_to_addItemFragment2);
         return rootView;
     }
-    private void addNewItem(String type, View rootView) {
-        Category ct = new Category();
+    private void EditItem(Category item, View rootView) {
+        Category ct = item;
+        Model.instance.deleteItem(ct, () -> reloadData(ct.getCategoryType()));
         saveButton.setEnabled(false);
+        deleteButton.setEnabled(false);
         String userId = UserModel.instance.getEmail();
         ct.setAmount(inputAmount.getText().toString());
         ct.setDesc(inputDescription.getText().toString());
         ct.setUserID(userId);
-//            pb.setVisibility(View.VISIBLE);
-        ct.setCategoryType(type);
         Calendar c = Calendar.getInstance();
         int mYear = c.get(Calendar.YEAR);
         int mMonth = c.get(Calendar.MONTH);
         int mDay = c.get(Calendar.DAY_OF_MONTH);
         String CurrentDate = mDay + "." + mMonth + "." + mYear;
         ct.setDate(CurrentDate);
-//            ModelFirebase.instance.addItem(ct, () -> reloadData(ct.getCategoryType()));
-        Model.instance.addItem(ct, () -> reloadData(ct.getCategoryType()));
+        Model.instance.updateItem(ct, () -> reloadData(ct.getCategoryType()));
         saveButton.setEnabled(false);
-        displaySuccessAlertDialog(rootView);
+        deleteButton.setEnabled(false);
+        displaySuccessEditAlertDialog(rootView);
 //            reloadData("Cars");
+    }
+
+    private void DeleteItem(Category item, View rootView) {
+        Category ct = item;
+        saveButton.setEnabled(false);
+        deleteButton.setEnabled(false);
+        Model.instance.deleteItem(ct, () -> reloadData(ct.getCategoryType()));
+        saveButton.setEnabled(false);
+        deleteButton.setEnabled(false);
+        displaySuccessDeleteAlertDialog(rootView);
     }
 
     void reloadData(String type) {
@@ -88,20 +106,35 @@ public class EditItemFragment extends Fragment {
         Model.instance.getAll( "Cars");
     }
 
-    private void displaySuccessAlertDialog(View view) {
+    private void displaySuccessEditAlertDialog(View view) {
         AlertDialog ad = new AlertDialog.Builder(getActivity()).create();
         ad.setCancelable(true);
         ad.setTitle("Success");
-        ad.setMessage("Item was created successfully");
+        ad.setMessage("Item was updated successfully");
         ad.setButton("Close", (dialog, which) -> {
             dialog.dismiss();
-            Navigation.findNavController(view).navigate(R.id.action_addItemFragment2_to_carsFragment22);
+            Navigation.findNavController(view).navigate(R.id.action_editItemFragment_to_carsFragment2);
         });
         ad.setOnCancelListener(dialog -> {
             dialog.dismiss();
             Navigation.findNavController(view).popBackStack();
         });
         ad.show();
+    }
+        private void displaySuccessDeleteAlertDialog(View view) {
+            AlertDialog ad = new AlertDialog.Builder(getActivity()).create();
+            ad.setCancelable(true);
+            ad.setTitle("Success");
+            ad.setMessage("Item was deleted successfully");
+            ad.setButton("Close", (dialog, which) -> {
+                dialog.dismiss();
+                Navigation.findNavController(view).navigate(R.id.action_editItemFragment_to_carsFragment2);
+            });
+            ad.setOnCancelListener(dialog -> {
+                dialog.dismiss();
+                Navigation.findNavController(view).popBackStack();
+            });
+            ad.show();
     }
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {

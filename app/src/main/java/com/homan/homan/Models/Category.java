@@ -6,11 +6,12 @@ import androidx.room.PrimaryKey;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FieldValue;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 @Entity
-public class Category {
+public class Category implements Serializable {
     @PrimaryKey(autoGenerate = true)
     private int houseID;
     private String userID;
