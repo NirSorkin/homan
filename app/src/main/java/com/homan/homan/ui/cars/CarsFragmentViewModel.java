@@ -14,7 +14,7 @@ public  class CarsFragmentViewModel extends ViewModel {
     private LiveData<List<Category>> mCarsList;
 
     public CarsFragmentViewModel() {
-        Log.d("TAG","StudentListViewModel");
+        Log.d("TAG","CarsFragmentViewModel");
         mCarsList = Model.instance.getAll("Cars");
     }
 

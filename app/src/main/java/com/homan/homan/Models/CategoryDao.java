@@ -18,8 +18,13 @@ public interface CategoryDao {
    /* @Query("select * from Category where houseID == :houseID")
     LiveData<List<Category>> getByHouseID(int houseID);*/
 
-    @Query("select * from Category where categoryType == :categoryType")
-    LiveData<List<Category>> getByCategoryType(String categoryType);
+    @Query("SELECT * FROM Category WHERE categoryType == :categoryType AND userID == :userID")
+    LiveData<List<Category>> getByCategoryType(String categoryType , String userID);
+
+
+    @Query("SELECT * FROM Category" + " WHERE ownerId LIKE :ownerId" +" AND categoryType LIKE :categoryType" )
+    LiveData<List<Category>> getByUserCategoryType(String ownerId,String categoryType);
+
 
 
 
@@ -29,5 +34,8 @@ public interface CategoryDao {
     @Delete
     void deleteCategory(Category category);
 
+    @Query("SELECT * FROM Category " +
+            "WHERE ownerId LIKE :ownerId")
+    LiveData<List<Category>> getAllByUserId(String ownerId);
 }
 

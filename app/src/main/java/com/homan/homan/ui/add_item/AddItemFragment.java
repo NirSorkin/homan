@@ -21,6 +21,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FieldValue;
 import com.homan.homan.Models.Category;
 import com.homan.homan.Models.Model;
@@ -87,11 +88,8 @@ public class AddItemFragment extends Fragment {
                 return;
             }
 
-            String userId = UserModel.instance.getEmail();
             ct.setAmount(inputAmount.getText().toString());
             ct.setDesc(inputDescription.getText().toString());
-            ct.setUserID(userId);
-//            pb.setVisibility(View.VISIBLE);
             ct.setCategoryType(type);
             Calendar c = Calendar.getInstance();
             int mYear = c.get(Calendar.YEAR);
@@ -100,11 +98,11 @@ public class AddItemFragment extends Fragment {
             String CurrentDate = mDay + "." + mMonth + "." + mYear;
             ct.setDate(CurrentDate);
 
-//            ModelFirebase.instance.addItem(ct, () -> reloadData(ct.getCategoryType()));
-            Model.instance.addItem(ct, () -> reloadData(ct.getCategoryType()));
+            Model.instance.addItem(ct, () -> reloadData(ct.getOwnerId()));
+
             saveButton.setEnabled(false);
             displaySuccessAlertDialog(rootView);
-//            reloadData("Cars");
+
         }
 
     void reloadData(String type) {

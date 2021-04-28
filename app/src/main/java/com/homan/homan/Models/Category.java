@@ -1,5 +1,6 @@
 package com.homan.homan.Models;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -12,55 +13,51 @@ import java.util.Map;
 
 @Entity
 public class Category implements Serializable {
-    @PrimaryKey(autoGenerate = true)
-    private int houseID;
+    @PrimaryKey
+    @NonNull
     private String userID;
     private String categoryType;
     private String date;
+    private String ownerId;
     private String amount;
     private String desc;
     private String image;
-    private Boolean isRemoved;
+    private Boolean isRemoved = false;
     private Long lastUpdated;
 
-    public Category(String userID, String categoryType , String amount , String desc) {
+/*    public Category(String userID, String categoryType , String amount , String desc) {
         this.userID = userID;
         this.categoryType = categoryType;
         this.amount = amount;
         this.desc = desc;
-    }
+    }*/
 
     public Category() { }
 
     public Map<String, Object> toMap() {
         return new HashMap<String, Object>() {{
+            put("ownerId" , ownerId);
             put("userID", userID);
             put("categoryType", categoryType);
             put("amount", amount);
             put("desc", desc);
             put("image", image);
-            put("removed", isRemoved);
+            put("isRemoved", isRemoved);
             put("lastUpdated", FieldValue.serverTimestamp());
         }};
     }
 
     public void fromMap(Map<String, Object> map) {
+        ownerId = (String) map.get("ownerId");
         userID = (String) map.get("userID");
         categoryType = (String) map.get("categoryType");
         amount = (String) map.get("amount");
         desc = (String) map.get("desc");
         image = (String) map.get("image");
-        isRemoved = (Boolean) map.get("removed");
+        isRemoved = (Boolean) map.get("isRemoved");
         lastUpdated = ((Timestamp) map.get("lastUpdated")).toDate().getTime();
     }
 
-    public int getHouseID() {
-        return houseID;
-    }
-
-    public void setHouseID(int houseID) {
-        this.houseID = houseID;
-    }
 
     public String getUserID() {
         return userID;
@@ -68,6 +65,14 @@ public class Category implements Serializable {
 
     public void setUserID(String userID) {
         this.userID = userID;
+    }
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
     }
 
     public String getCategoryType() {

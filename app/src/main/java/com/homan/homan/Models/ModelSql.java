@@ -11,27 +11,33 @@ public class ModelSql {
     public static ModelSql instance;
 
 
-    public LiveData<List<Category>> getAll() {
-        return AppLocalDB.db.categoryDao().getByCategoryType("Cars");
+    public LiveData<List<Category>> getAll(String type) {
+        return AppLocalDB.db.categoryDao().getByUserCategoryType(UserModel.instance.getEmail() , type);
     }
+
+    public LiveData<List<Category>> getAllByOwnerId(String userId) {
+        return AppLocalDB.db.categoryDao().getAllByUserId(userId);
+    }
+
     public interface GetAllCategoriesListener{
         void onComplete( List<Category> data);
     }
 
-    public void getAllByCategory(Model.GetAllCategoriesListener listener, String type){
+
+    public void getAllByCategoryAndID(Category ct){
         class MyAsyncTask extends AsyncTask{
             LiveData<List<Category>> data;
             @Override
             protected Object doInBackground(Object[] objects) {
-                data = AppLocalDB.db.categoryDao().getByCategoryType(type);
+                data = AppLocalDB.db.categoryDao().getByCategoryType(ct.getCategoryType(),ct.getDesc());
                 return null;
             }
 
-            @Override
+         /*   @Override
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
                 listener.onComplete(data);
-            }
+            }*/
         }
 
         MyAsyncTask task = new MyAsyncTask();

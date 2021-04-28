@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 
 import androidx.lifecycle.LiveData;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.homan.homan.MyApplication;
 
 import java.util.List;
@@ -19,11 +20,20 @@ public class Model {
     private Model(){ }
 
     public LiveData<List<Category>> getAll(String type) {
-        if (categories == null) {
-            categories = modelSql.getAll();
+        if (categories == null)
+        {
+            categories = modelSql.getAll(type);
         }
         fetchUpdatedDataFromFirebase(null, type);
+
         return categories;
+    }
+
+    public LiveData<List<Category>> getAllByOwnerId(String type) {
+        String userId = FirebaseAuth.getInstance().getUid();
+        LiveData<List<Category>> categoriesByOwner = modelSql.getAllByOwnerId(userId);
+        fetchUpdatedDataFromFirebase(null , type);
+        return categoriesByOwner;
     }
 
     public interface UpdateListener {
@@ -33,17 +43,16 @@ public class Model {
     private void fetchUpdatedDataFromFirebase(UpdateListener listener, String type) {
         SharedPreferences sharedPreferences = MyApplication.context.getSharedPreferences("TAG", Context.MODE_PRIVATE);
         long lastUpdated = sharedPreferences.getLong("lastUpdated", 0);
-
         modelFirebase.getAll(lastUpdated, result -> {
             long lastU = 0;
             for (Category ct : result) {
-                modelSql.addItem(ct, null);
-                if (ct.getLastUpdated() > lastU) {
-                    lastU = ct.getLastUpdated();
-                }
-             /*   if (ct.getRemoved()) {
-                    modelSql.delete(ct, null);
-                }*/
+                   modelSql.addItem(ct, null);
+                   if (ct.getLastUpdated() > lastU) {
+                       lastU = ct.getLastUpdated();
+/*                   if (ct.getRemoved()) {
+                       modelSql.delete(ct, null);
+                   }*/
+               }
             }
             sharedPreferences.edit().putLong("lastUpdated", lastU).apply();
             if (listener != null) listener.onComplete();
@@ -76,8 +85,12 @@ public class Model {
         modelFirebase.updateItem(item , listener);
     }
 
-    public interface DeleteListener extends AddItemListener{}
+    public interface DeleteListener{
+        void onComplete();
+    }
     public void deleteItem(Category ct , DeleteListener listener){
-    modelFirebase.deleteItem(ct ,listener);
+        ct.setRemoved(true);
+        modelSql.delete(ct , null);
+        modelFirebase.deleteItem(ct ,listener);
     }
 }
