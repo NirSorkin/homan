@@ -44,30 +44,16 @@ public class CarsFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_cars, container, false);
         viewModel = new ViewModelProvider((ViewModelStoreOwner) rootView.getContext()).get(CarsFragmentViewModel.class);
-        //RecyclerView recyclerView = rootView.findViewById(R.id.carsList);
         pb = rootView.findViewById(R.id.carslistprogressbar);
         pb.setVisibility(View.INVISIBLE);
-/*        addBtn = rootView.findViewById(R.id.carsaddbutton);
-        addBtn.setOnClickListener( v -> addNewItem());*/
         initializeViewElements(rootView);
         initializeRecyclerView(rootView);
         initializeViewHandlers();
         refreshCategoryList();
 
-
-        //recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        //mAdapter = new MyAdapter(rootView.getContext(),"Cars");
-        //carsListRecycler.setAdapter(mAdapter);
-        //recyclerView.setItemAnimator(new DefaultItemAnimator());
-        //carsListRecycler.setLayoutManager(new LinearLayoutManager(rootView.getContext()));
         Button addBtn = rootView.findViewById(R.id.carsaddbutton);
-        addBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(v).navigate(R.id.action_carsFragment2_to_addItemFragment2);
-            }
-        });
-        //reloadData();
+        addBtn.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_carsFragment2_to_addItemFragment2));
+
         viewModel.getList().observe(getViewLifecycleOwner(), categories -> mAdapter.notifyDataSetChanged());
         return rootView;
     }

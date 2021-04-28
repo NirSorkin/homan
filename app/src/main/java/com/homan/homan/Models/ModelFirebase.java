@@ -11,6 +11,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -75,8 +77,12 @@ public class ModelFirebase {
 
     public void addItem(Category item, Model.AddItemListener listener) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference newCategoryRef =  db.collection("Users").document(UserModel.instance.getEmail()).collection(item.getCategoryType()).document(item.getDesc());
+        item.setOwnerId(UserModel.instance.getEmail());
+        item.setRemoved(false);
+        item.setUserID(item.getDesc());
         // Add a new document with a generated ID
-        db.collection("Users").document(UserModel.instance.getEmail()).collection(item.getCategoryType()).document(item.getDesc())
+            newCategoryRef
                 .set(item.toMap())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -100,14 +106,6 @@ public class ModelFirebase {
 
 
     public void deleteItem(Category item, Model.DeleteListener listener) {
-//        FirebaseFirestore db = FirebaseFirestore.getInstance();
-//
-//        db.collection(ct.getCategoryType()).document(ct.getUserID()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-//            @Override
-//            public void onComplete(@NonNull Task<Void> task) {
-//                listener.onComplete();
-//            }
-//        });
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         // Add a new document with a generated ID
