@@ -72,7 +72,7 @@ public class AddItemFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_add_item, container, false);
         pb = rootView.findViewById(R.id.progressBar);
         pb.setVisibility(View.INVISIBLE);
-        type = AddItemFragmentArgs.fromBundle(getArguments()).toString();
+        type = AddItemFragmentArgs.fromBundle(getArguments()).getType();
         inputDescription = rootView.findViewById(R.id.input_description);
         inputAmount = rootView.findViewById(R.id.input_amount);
         saveButton = rootView.findViewById(R.id.save);
@@ -85,7 +85,7 @@ public class AddItemFragment extends Fragment {
             }
         });
 
-        saveButton.setOnClickListener(v -> addNewItem("Food", rootView));
+        saveButton.setOnClickListener(v -> addNewItem(type, rootView));
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 //        Navigation.findNavController(rootView).navigate(R.id.action_carsFragment2_to_addItemFragment2);
         return rootView;

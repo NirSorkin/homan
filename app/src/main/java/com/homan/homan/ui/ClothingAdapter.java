@@ -80,7 +80,7 @@ public class ClothingAdapter extends RecyclerView.Adapter<ClothingAdapter.MyView
 
             if (clothingViewModel instanceof ClothingViewModel) {
                 Navigation.findNavController(v)
-                        .navigate(ClothingFragmentDirections.actionClothingFragmentToAddItemFragment2("Clothing"));
+                        .navigate(ClothingFragmentDirections.actionClothingFragmentToEditItemFragment(item));
             }
         }
     }

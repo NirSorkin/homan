@@ -56,6 +56,9 @@
         <action
             android:id="@+id/action_foodFragment_to_addItemFragment2"
             app:destination="@id/addItemFragment2" />
+        <action
+            android:id="@+id/action_foodFragment_to_editItemFragment"
+            app:destination="@id/editItemFragment" />
     </fragment>
     <fragment
         android:id="@+id/clothingFragment"
@@ -65,6 +68,9 @@
         <action
             android:id="@+id/action_clothingFragment_to_addItemFragment2"
             app:destination="@id/addItemFragment2" />
+        <action
+            android:id="@+id/action_clothingFragment_to_editItemFragment"
+            app:destination="@id/editItemFragment" />
     </fragment>
     <fragment
         android:id="@+id/houseHoldFragment"
@@ -74,6 +80,9 @@
         <action
             android:id="@+id/action_houseHoldFragment_to_addItemFragment2"
             app:destination="@id/addItemFragment2" />
+        <action
+            android:id="@+id/action_houseHoldFragment_to_editItemFragment"
+            app:destination="@id/editItemFragment" />
     </fragment>
     <fragment
         android:id="@+id/insurencesFragment"
@@ -83,6 +92,9 @@
         <action
             android:id="@+id/action_insurencesFragment_to_addItemFragment2"
             app:destination="@id/addItemFragment2" />
+        <action
+            android:id="@+id/action_insurencesFragment_to_editItemFragment"
+            app:destination="@id/editItemFragment" />
     </fragment>
     <fragment
         android:id="@+id/otherFragment"
@@ -92,6 +104,9 @@
         <action
             android:id="@+id/action_otherFragment_to_addItemFragment2"
             app:destination="@id/addItemFragment2" />
+        <action
+            android:id="@+id/action_otherFragment_to_editItemFragment"
+            app:destination="@id/editItemFragment" />
     </fragment>
     <fragment
         android:id="@+id/carsFragment2"

@@ -77,7 +77,7 @@ public class InsurencesAdapter extends RecyclerView.Adapter<InsurencesAdapter.My
 
             if (insurencesViewModel instanceof InsurencesViewModel) {
                 Navigation.findNavController(v)
-                        .navigate(InsurencesFragmentDirections.actionInsurencesFragmentToAddItemFragment2("Insurences"));
+                        .navigate(InsurencesFragmentDirections.actionInsurencesFragmentToEditItemFragment(item));
             }
         }
     }

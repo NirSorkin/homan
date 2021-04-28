@@ -79,7 +79,7 @@ public class OtherAdapter extends RecyclerView.Adapter<OtherAdapter.MyViewHolder
 
             if (otherViewModel instanceof OtherViewModel) {
                 Navigation.findNavController(v)
-                        .navigate(OtherFragmentDirections.actionOtherFragmentToAddItemFragment2("HouseHold"));
+                        .navigate(OtherFragmentDirections.actionOtherFragmentToEditItemFragment(item));
             }
         }
     }

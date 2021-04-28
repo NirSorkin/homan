@@ -17,6 +17,7 @@ import com.homan.homan.Models.Category;
 import com.homan.homan.R;
 import com.homan.homan.ui.clothing.ClothingFragmentDirections;
 import com.homan.homan.ui.clothing.ClothingViewModel;
+import com.homan.homan.ui.food.FoodFragmentDirections;
 import com.homan.homan.ui.food.FoodViewModel;
 import com.squareup.picasso.Picasso;
 
@@ -78,7 +79,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.MyViewHolder> 
 
             if (foodViewModel instanceof FoodViewModel) {
                 Navigation.findNavController(v)
-                        .navigate(ClothingFragmentDirections.actionClothingFragmentToAddItemFragment2("Food"));
+                        .navigate(FoodFragmentDirections.actionFoodFragmentToEditItemFragment(item));
             }
         }
     }

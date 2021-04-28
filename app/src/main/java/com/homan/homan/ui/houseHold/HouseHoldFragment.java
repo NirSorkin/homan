@@ -26,6 +26,7 @@ import com.homan.homan.ui.HouseHoldAdapter;
 import com.homan.homan.ui.MyAdapter;
 import com.homan.homan.ui.clothing.ClothingFragmentDirections;
 import com.homan.homan.ui.clothing.ClothingViewModel;
+import com.homan.homan.ui.food.FoodFragmentDirections;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -52,11 +53,11 @@ public class HouseHoldFragment extends Fragment {
         refreshCategoryList();
 
         Button addBtn = rootView.findViewById(R.id.houseHoldaddbutton);
-/*        addBtn.setOnClickListener(v -> {
+        addBtn.setOnClickListener(v -> {
             String type = "HouseHold";
             Navigation.findNavController(v)
-                    .navigate(HouseHoldFragment.(type));
-        });*/
+                    .navigate(HouseHoldFragmentDirections.actionHouseHoldFragmentToAddItemFragment2(type));
+        });
 
         viewModel.getList().observe(getViewLifecycleOwner(), categories -> mAdapter.notifyDataSetChanged());
         return rootView;

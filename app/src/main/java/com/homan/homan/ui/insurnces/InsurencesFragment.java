@@ -23,6 +23,7 @@ import com.homan.homan.R;
 import com.homan.homan.ui.HouseHoldAdapter;
 import com.homan.homan.ui.InsurencesAdapter;
 import com.homan.homan.ui.MyAdapter;
+import com.homan.homan.ui.food.FoodFragmentDirections;
 import com.homan.homan.ui.houseHold.HouseHoldViewModel;
 
 import java.util.LinkedList;
@@ -51,11 +52,11 @@ public class InsurencesFragment extends Fragment {
         refreshCategoryList();
 
         Button addBtn = rootView.findViewById(R.id.insurenceaddbutton);
-/*        addBtn.setOnClickListener(v -> {
-            String type = "HouseHold";
+        addBtn.setOnClickListener(v -> {
+            String type = "Insurences";
             Navigation.findNavController(v)
-                    .navigate(HouseHoldFragment.(type));
-        });*/
+                    .navigate(InsurencesFragmentDirections.actionInsurencesFragmentToAddItemFragment2(type));
+        });
 
         viewModel.getList().observe(getViewLifecycleOwner(), categories -> mAdapter.notifyDataSetChanged());
         return rootView;
