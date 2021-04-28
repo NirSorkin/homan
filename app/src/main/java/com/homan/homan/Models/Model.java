@@ -25,6 +25,15 @@ public class Model {
         {
             categories = modelSql.getAll(type);
         }
+/*        else{
+
+            categories = new LiveData<List<Category>>() {
+                @Override
+                protected void postValue(List<Category> value) {
+                    super.postValue(value);
+                }
+            };
+        }*/
         fetchUpdatedDataFromFirebase(null, type);
 
         return categories;
@@ -52,9 +61,9 @@ public class Model {
                    modelSql.addItem(ct, null);
                    if (ct.getLastUpdated() > lastU) {
                        lastU = ct.getLastUpdated();
-/*                   if (ct.getRemoved()) {
+                   if (ct.getRemoved()) {
                        modelSql.delete(ct, null);
-                   }*/
+                   }
                }
             }
             sharedPreferences.edit().putLong("lastUpdated", lastU).apply();
