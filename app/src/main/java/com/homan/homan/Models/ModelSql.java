@@ -1,5 +1,6 @@
 package com.homan.homan.Models;
 
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;

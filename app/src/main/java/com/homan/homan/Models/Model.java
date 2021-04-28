@@ -2,9 +2,11 @@ package com.homan.homan.Models;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 
 import androidx.lifecycle.LiveData;
 
+import com.google.firebase.firestore.util.Listener;
 import com.homan.homan.MyApplication;
 
 import java.util.List;
@@ -78,6 +80,16 @@ public class Model {
 
     public interface DeleteListener extends AddItemListener{}
     public void deleteItem(Category ct , DeleteListener listener){
-    modelFirebase.deleteItem(ct ,listener);
+        modelFirebase.deleteItem(ct ,listener);
+    }
+
+    public interface  Listener<T> {
+        void onComplete(T result);
+    }
+
+    public interface UploadImageListener extends Listener<String> {
+    }
+    public void uploadImage(Bitmap imageBmp, String name, final UploadImageListener listener){
+        modelFirebase.uploadImage(imageBmp, name, listener);
     }
 }
