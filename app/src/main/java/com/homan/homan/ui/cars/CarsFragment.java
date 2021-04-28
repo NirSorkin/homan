@@ -52,7 +52,11 @@ public class CarsFragment extends Fragment {
         refreshCategoryList();
 
         Button addBtn = rootView.findViewById(R.id.carsaddbutton);
-        addBtn.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_carsFragment2_to_addItemFragment2));
+        addBtn.setOnClickListener(v -> {
+            String type = "Cars";
+            Navigation.findNavController(v)
+                    .navigate(CarsFragmentDirections.actionCarsFragment2ToAddItemFragment2(type));
+        });
 
         viewModel.getList().observe(getViewLifecycleOwner(), categories -> mAdapter.notifyDataSetChanged());
         return rootView;

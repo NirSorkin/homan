@@ -6,6 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,60 +21,65 @@ import android.widget.ProgressBar;
 
 import com.homan.homan.Models.Category;
 import com.homan.homan.R;
+import com.homan.homan.ui.ClothingAdapter;
+import com.homan.homan.ui.HouseHoldAdapter;
 import com.homan.homan.ui.MyAdapter;
+import com.homan.homan.ui.clothing.ClothingFragmentDirections;
+import com.homan.homan.ui.clothing.ClothingViewModel;
 
 import java.util.LinkedList;
 import java.util.List;
 
 
 public class HouseHoldFragment extends Fragment {
-    List<Category> hHoldList = new LinkedList<Category>();
-    RecyclerView carsList;
-    MyAdapter myAdapter;
-    ProgressBar pb;
-    //private CarsListfrgViewModel mViewModel;
-
+    HouseHoldViewModel viewModel;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-
-    public static HouseHoldFragment newInstance() {
-        return new HouseHoldFragment();
-    }
-
-
+    RecyclerView houseListRecycler;
+    HouseHoldAdapter mAdapter;
+    ProgressBar pb;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-
         View rootView = inflater.inflate(R.layout.fragment_house_hold, container, false);
-        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.houseList);
+        viewModel = new ViewModelProvider((ViewModelStoreOwner) rootView.getContext()).get(HouseHoldViewModel.class);
         pb = rootView.findViewById(R.id.houseHoldlistprogressbar);
         pb.setVisibility(View.INVISIBLE);
+        initializeViewElements(rootView);
+        initializeRecyclerView(rootView);
+        initializeViewHandlers();
+        refreshCategoryList();
 
-        //recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        Button addBtn = rootView.findViewById(R.id.houseHoldaddbutton);
+/*        addBtn.setOnClickListener(v -> {
+            String type = "HouseHold";
+            Navigation.findNavController(v)
+                    .navigate(HouseHoldFragment.(type));
+        });*/
 
-       // myAdapter = new MyAdapter(rootView.getContext(), "houseHold");
-        recyclerView.setAdapter(myAdapter);
-        //recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setLayoutManager(new LinearLayoutManager(rootView.getContext()));
-
-        Button insurencesBtn = rootView.findViewById(R.id.houseHoldaddbutton);
-        insurencesBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(v).navigate(R.id.action_houseHoldFragment_to_addItemFragment2);
-            }
-        });
-
+        viewModel.getList().observe(getViewLifecycleOwner(), categories -> mAdapter.notifyDataSetChanged());
         return rootView;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        //mViewModel = new ViewModelProvider(this).get(CarsListfrgViewModel.class);
-        // TODO: Use the ViewModel
+    private void initializeViewElements(View view) {
+        mSwipeRefreshLayout = view.findViewById(R.id.swipe_refresh);
+        houseListRecycler = view.findViewById(R.id.houseList);
+    }
+
+    private void initializeRecyclerView(View view) {
+        mAdapter = new HouseHoldAdapter(getContext(), viewModel);
+        houseListRecycler.setAdapter(mAdapter);
+        houseListRecycler.setLayoutManager(new LinearLayoutManager(view.getContext()));
+    }
+
+    private void initializeViewHandlers() {
+        mSwipeRefreshLayout.setOnRefreshListener(this::refreshCategoryList);
+    }
+
+    private void refreshCategoryList() {
+        viewModel.refreshCategoryList();
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
 }

@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,7 +20,10 @@ import android.widget.ProgressBar;
 
 import com.homan.homan.Models.Category;
 import com.homan.homan.R;
+import com.homan.homan.ui.HouseHoldAdapter;
+import com.homan.homan.ui.InsurencesAdapter;
 import com.homan.homan.ui.MyAdapter;
+import com.homan.homan.ui.houseHold.HouseHoldViewModel;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -26,48 +31,53 @@ import java.util.List;
 
 public class InsurencesFragment extends Fragment {
 
-    List<Category> insurencesList = new LinkedList<Category>();
-    RecyclerView carsList;
-    MyAdapter myAdapter;
-    ProgressBar pb;
-    //private CarsListfrgViewModel mViewModel;
-
+    InsurencesViewModel viewModel;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-
+    RecyclerView insurencesListRecycler;
+    InsurencesAdapter mAdapter;
+    ProgressBar pb;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-
         View rootView = inflater.inflate(R.layout.fragment_insurences, container, false);
-        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.insurencesList);
+        viewModel = new ViewModelProvider((ViewModelStoreOwner) rootView.getContext()).get(InsurencesViewModel.class);
         pb = rootView.findViewById(R.id.insurencelistprogressbar);
         pb.setVisibility(View.INVISIBLE);
+        initializeViewElements(rootView);
+        initializeRecyclerView(rootView);
+        initializeViewHandlers();
+        refreshCategoryList();
 
-        //recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        Button addBtn = rootView.findViewById(R.id.insurenceaddbutton);
+/*        addBtn.setOnClickListener(v -> {
+            String type = "HouseHold";
+            Navigation.findNavController(v)
+                    .navigate(HouseHoldFragment.(type));
+        });*/
 
-        //myAdapter = new MyAdapter(rootView.getContext(), "insurences");
-        recyclerView.setAdapter(myAdapter);
-        //recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setLayoutManager(new LinearLayoutManager(rootView.getContext()));
-
-        Button insurencesBtn = rootView.findViewById(R.id.insurenceaddbutton);
-        insurencesBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(v).navigate(R.id.action_insurencesFragment_to_addItemFragment2);
-            }
-        });
-
+        viewModel.getList().observe(getViewLifecycleOwner(), categories -> mAdapter.notifyDataSetChanged());
         return rootView;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        //mViewModel = new ViewModelProvider(this).get(CarsListfrgViewModel.class);
-        // TODO: Use the ViewModel
+    private void initializeViewElements(View view) {
+        mSwipeRefreshLayout = view.findViewById(R.id.swipe_refresh);
+        insurencesListRecycler = view.findViewById(R.id.insurencesList);
     }
 
+    private void initializeRecyclerView(View view) {
+        mAdapter = new InsurencesAdapter(getContext(), viewModel);
+        insurencesListRecycler.setAdapter(mAdapter);
+        insurencesListRecycler.setLayoutManager(new LinearLayoutManager(view.getContext()));
+    }
+
+    private void initializeViewHandlers() {
+        mSwipeRefreshLayout.setOnRefreshListener(this::refreshCategoryList);
+    }
+
+    private void refreshCategoryList() {
+        viewModel.refreshCategoryList();
+        mSwipeRefreshLayout.setRefreshing(false);
+    }
 }

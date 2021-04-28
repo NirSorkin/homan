@@ -113,6 +113,9 @@
         <action
             android:id="@+id/action_addItemFragment2_to_carsFragment22"
             app:destination="@id/carsFragment2" />
+        <argument
+            android:name="type"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/editItemFragment"

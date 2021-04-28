@@ -1,8 +1,6 @@
 package com.homan.homan.ui;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,67 +8,62 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.homan.homan.Models.Category;
-import com.homan.homan.Models.Model;
 import com.homan.homan.R;
-import com.homan.homan.ui.cars.CarsFragmentDirections;
-import com.homan.homan.ui.cars.CarsFragmentViewModel;
-import com.homan.homan.ui.edit_item.EditItemFragment;
+import com.homan.homan.ui.clothing.ClothingFragmentDirections;
+import com.homan.homan.ui.clothing.ClothingViewModel;
+import com.homan.homan.ui.houseHold.HouseHoldViewModel;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+public class HouseHoldAdapter  extends RecyclerView.Adapter<HouseHoldAdapter.MyViewHolder> {
 
-    private final CarsFragmentViewModel mViewModel;
+    private final HouseHoldViewModel houseHoldViewModel;
 
     private final LayoutInflater mInflater;
 
-    public MyAdapter(Context context, CarsFragmentViewModel viewModel){
+    public HouseHoldAdapter(Context context, HouseHoldViewModel viewModel){
         mInflater = LayoutInflater.from(context);
-        mViewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(viewModel.getClass());
+        houseHoldViewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(viewModel.getClass());
     }
 
     @NonNull
     @Override
-    public MyAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int position) {
+    public HouseHoldAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int position) {
         View mItemView = mInflater.inflate(R.layout.list_row, parent, false);
-        return new MyViewHolder(mItemView, this);
+        return new HouseHoldAdapter.MyViewHolder(mItemView, this);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        Category mCurrent = mViewModel.getList().getValue().get(position);
+    public void onBindViewHolder(@NonNull HouseHoldAdapter.MyViewHolder holder, int position) {
+        Category mCurrent = houseHoldViewModel.getList().getValue().get(position);
         if (mCurrent.getImage() != null) {
-//            Picasso.get().load(mCurrent.getImage()).placeholder(R.drawable.ic_menu_gallery).into(holder.itemImage);
             Picasso.get().load(mCurrent.getImage()).placeholder(R.drawable.ic_menu_gallery).into(holder.itemImage);
         }
         holder.categorytext.setText(mCurrent.getDesc());
         holder.description.setText(mCurrent.getCategoryType());
     }
 
+
     @Override
     public int getItemCount() {
-        if (mViewModel.getList() == null) return 0;
-        List<Category> categories = mViewModel.getList().getValue();
+        if (houseHoldViewModel.getList() == null) return 0;
+        List<Category> categories = houseHoldViewModel.getList().getValue();
         return categories != null ? categories.size() : 0;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public final TextView description , categorytext;
         public final ImageView itemImage;
-        final MyAdapter mAdapter;
+        final HouseHoldAdapter mAdapter;
 
-        public MyViewHolder(@NonNull View itemView , MyAdapter adapter) {
+        public MyViewHolder(@NonNull View itemView , HouseHoldAdapter adapter) {
             super(itemView);
             categorytext = itemView.findViewById(R.id.categorytext);
             description = itemView.findViewById(R.id.descriptiontext);
@@ -81,11 +74,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
         @Override
         public void onClick(View v) {
-            Category item = mViewModel.getList().getValue().get(getLayoutPosition());
-            if (mViewModel instanceof CarsFragmentViewModel) {
+            Category item = houseHoldViewModel.getList().getValue().get(getLayoutPosition());
+
+            if (houseHoldViewModel instanceof HouseHoldViewModel) {
                 Navigation.findNavController(v)
-                        .navigate(CarsFragmentDirections.actionCarsFragment2ToEditItemFragment(item));
+                        .navigate(ClothingFragmentDirections.actionClothingFragmentToAddItemFragment2("HouseHold"));
             }
         }
     }
 }
+

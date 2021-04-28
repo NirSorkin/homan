@@ -39,6 +39,7 @@ import com.homan.homan.Models.UserModel;
 import com.homan.homan.R;
 import com.homan.homan.ui.MyAdapter;
 import com.homan.homan.ui.cars.CarsFragment;
+import com.homan.homan.ui.edit_item.EditItemFragmentArgs;
 
 import java.util.Calendar;
 import java.util.LinkedList;
@@ -58,6 +59,7 @@ public class AddItemFragment extends Fragment {
     ImageView imageAvatar;
     Button inputImage;
     String imageUrl;
+    String type;
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
     public static AddItemFragment newInstance() {
@@ -66,10 +68,11 @@ public class AddItemFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                            @Nullable Bundle savedInstanceState) {
+                             @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_add_item, container, false);
         pb = rootView.findViewById(R.id.progressBar);
         pb.setVisibility(View.INVISIBLE);
+        type = AddItemFragmentArgs.fromBundle(getArguments()).toString();
         inputDescription = rootView.findViewById(R.id.input_description);
         inputAmount = rootView.findViewById(R.id.input_amount);
         saveButton = rootView.findViewById(R.id.save);
@@ -78,11 +81,11 @@ public class AddItemFragment extends Fragment {
         inputImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 editImage();
+                editImage();
             }
         });
 
-        saveButton.setOnClickListener(v -> addNewItem("Cars", rootView));
+        saveButton.setOnClickListener(v -> addNewItem("Food", rootView));
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 //        Navigation.findNavController(rootView).navigate(R.id.action_carsFragment2_to_addItemFragment2);
         return rootView;
@@ -167,31 +170,39 @@ public class AddItemFragment extends Fragment {
     }
 
     private void addNewItem(String type, View rootView) {
-            Category ct = new Category();
-            saveButton.setEnabled(false);
-            String Amount = inputAmount.getText().toString().trim();
-            String Description = inputDescription.getText().toString().trim();
-//            Random r = new Random();
-//            int num = r.nextInt(100000);
-//            String stNum = ""+num;
-//            ct.setHouseID(num);
-            String name = UserModel.instance.getEmail() +"-" + Description + "-" + "Image";
-            BitmapDrawable drawable = (BitmapDrawable)imageAvatar.getDrawable();
-            if(drawable == null){
-                displayMisssingImage(rootView);
-            }
+        Category ct = new Category();
+        saveButton.setEnabled(false);
+        String Amount = inputAmount.getText().toString().trim();
+        String Description = inputDescription.getText().toString().trim();
+        String name = UserModel.instance.getEmail() +"-" + Description + "-" + "Image";
+        BitmapDrawable drawable = (BitmapDrawable)imageAvatar.getDrawable();
+        if(drawable == null){
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle("Operation Failed");
+            builder.setMessage("Saving item failed, must contain an image");
+            builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    Navigation.findNavController(rootView).popBackStack();
+                }
+            });
+            builder.show();
+        }
+        if(drawable != null)
+        {
             Bitmap bitmap = drawable.getBitmap();
             Model.instance.uploadImage(bitmap, name, new Model.UploadImageListener() {
                 @Override
                 public void onComplete(String url) {
                     if(url == null){
                         displayFailedError();
-                    }else {
+                    }else{
                         ct.setImage(url);
-                        if (Description.isEmpty()) {
+                        if (Description.isEmpty()){
                             inputDescription.setError("Description is Required.");
                             saveButton.setEnabled(true);
-                            if (Amount.isEmpty()) {
+                            if (Amount.isEmpty()){
                                 inputAmount.setError("Amount is Required.");
                                 saveButton.setEnabled(true);
                                 return;
@@ -210,12 +221,11 @@ public class AddItemFragment extends Fragment {
                             return;
                         }
 
-
                         String userId = UserModel.instance.getEmail();
                         ct.setAmount(inputAmount.getText().toString());
                         ct.setDesc(inputDescription.getText().toString());
                         ct.setUserID(userId);
-
+//            pb.setVisibility(View.VISIBLE);
                         ct.setCategoryType(type);
                         Calendar c = Calendar.getInstance();
                         int mYear = c.get(Calendar.YEAR);
@@ -224,6 +234,7 @@ public class AddItemFragment extends Fragment {
                         String CurrentDate = mDay + "." + mMonth + "." + mYear;
                         ct.setDate(CurrentDate);
 
+//            ModelFirebase.instance.addItem(ct, () -> reloadData(ct.getCategoryType()));
                         Model.instance.addItem(ct, () -> reloadData(ct.getCategoryType()));
                         saveButton.setEnabled(false);
                         displaySuccessAlertDialog(rootView);
@@ -231,14 +242,15 @@ public class AddItemFragment extends Fragment {
                 }
             });
 
-//            reloadData("Cars");
         }
+
+    }
 
 
     void reloadData(String type) {
         pb.setVisibility(View.VISIBLE);
         saveButton.setEnabled(false);
-        Model.instance.getAll( "Cars");
+        Model.instance.getAll( type);
     }
 
     private void displayFailedError() {
@@ -249,20 +261,6 @@ public class AddItemFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-            }
-        });
-        builder.show();
-    }
-
-    private void displayMisssingImage(View view) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Missing Image");
-        builder.setMessage("For saving an object, You must to add an Image");
-        builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                Navigation.findNavController(view).popBackStack();
             }
         });
         builder.show();

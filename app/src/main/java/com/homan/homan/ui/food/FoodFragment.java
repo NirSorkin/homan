@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,55 +20,65 @@ import android.widget.ProgressBar;
 
 import com.homan.homan.Models.Category;
 import com.homan.homan.R;
+import com.homan.homan.ui.ClothingAdapter;
+import com.homan.homan.ui.FoodAdapter;
 import com.homan.homan.ui.MyAdapter;
+import com.homan.homan.ui.clothing.ClothingFragmentDirections;
+import com.homan.homan.ui.clothing.ClothingViewModel;
 
 import java.util.LinkedList;
 import java.util.List;
 
 
 public class FoodFragment extends Fragment {
-    List<Category> foodList = new LinkedList<Category>();
-    RecyclerView carsList;
-    MyAdapter myAdapter;
-    ProgressBar pb;
-    //private CarsListfrgViewModel mViewModel;
-
+    FoodViewModel viewModel;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-
+    RecyclerView foodListRecycler;
+    FoodAdapter mAdapter;
+    ProgressBar pb;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-
         View rootView = inflater.inflate(R.layout.fragment_food, container, false);
-        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.foodList);
+        viewModel = new ViewModelProvider((ViewModelStoreOwner) rootView.getContext()).get(FoodViewModel.class);
         pb = rootView.findViewById(R.id.foodlistprogressbar);
         pb.setVisibility(View.INVISIBLE);
+        initializeViewElements(rootView);
+        initializeRecyclerView(rootView);
+        initializeViewHandlers();
+        refreshCategoryList();
 
-        //recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        //myAdapter = new MyAdapter(rootView.getContext(), "food");
-        recyclerView.setAdapter(myAdapter);
-        //recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setLayoutManager(new LinearLayoutManager(rootView.getContext()));
-
-        Button insurencesBtn = rootView.findViewById(R.id.foodaddbutton);
-        insurencesBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(v).navigate(R.id.action_foodFragment_to_addItemFragment2);
-            }
+        Button addBtn = rootView.findViewById(R.id.foodaddbutton);
+        addBtn.setOnClickListener(v -> {
+            String type = "Food";
+            Navigation.findNavController(v)
+                    .navigate(FoodFragmentDirections.actionFoodFragmentToAddItemFragment2(type));
         });
 
+        viewModel.getList().observe(getViewLifecycleOwner(), categories -> mAdapter.notifyDataSetChanged());
         return rootView;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        //mViewModel = new ViewModelProvider(this).get(CarsListfrgViewModel.class);
-        // TODO: Use the ViewModel
+    private void initializeViewElements(View view) {
+        mSwipeRefreshLayout = view.findViewById(R.id.swipe_refresh);
+        foodListRecycler = view.findViewById(R.id.foodList);
+    }
+
+    private void initializeRecyclerView(View view) {
+        mAdapter = new FoodAdapter(getContext(), viewModel);
+        foodListRecycler.setAdapter(mAdapter);
+        foodListRecycler.setLayoutManager(new LinearLayoutManager(view.getContext()));
+    }
+
+    private void initializeViewHandlers() {
+        mSwipeRefreshLayout.setOnRefreshListener(this::refreshCategoryList);
+    }
+
+    private void refreshCategoryList() {
+        viewModel.refreshCategoryList();
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
 }
