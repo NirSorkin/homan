@@ -51,11 +51,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Category mCurrent = mViewModel.getList().getValue().get(position);
         if (mCurrent.getImage() != null) {
-//            Picasso.get().load(mCurrent.getImage()).placeholder(R.drawable.ic_menu_gallery).into(holder.itemImage);
             Picasso.get().load(mCurrent.getImage()).placeholder(R.drawable.ic_menu_gallery).into(holder.itemImage);
         }
         holder.categorytext.setText(mCurrent.getDesc());
-        holder.description.setText(mCurrent.getCategoryType());
+        holder.description.setText(mCurrent.getAmount() + "$");
     }
 
     @Override

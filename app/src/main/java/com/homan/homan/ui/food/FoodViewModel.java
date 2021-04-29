@@ -1,7 +1,9 @@
 package com.homan.homan.ui.food;
 
+import android.os.Build;
 import android.util.Log;
 
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -10,7 +12,9 @@ import com.homan.homan.Models.Model;
 
 import java.util.List;
 
+
 public class FoodViewModel  extends ViewModel {
+
     private LiveData<List<Category>> mFoodList;
 
     public FoodViewModel() {
@@ -25,4 +29,5 @@ public class FoodViewModel  extends ViewModel {
     public void refreshCategoryList() {
         mFoodList = Model.instance.getAll("Food");
     }
+
 }

@@ -25,6 +25,7 @@ import com.homan.homan.Models.Category;
 import com.homan.homan.Models.Model;
 import com.homan.homan.R;
 import com.homan.homan.ui.MyAdapter;
+import com.homan.homan.ui.food.FoodViewModel;
 
 import java.io.Serializable;
 import java.util.List;
@@ -33,6 +34,7 @@ import java.util.List;
 public class CarsFragment extends Fragment {
 
     CarsFragmentViewModel viewModel;
+    FoodViewModel foodViewModel;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     RecyclerView carsListRecycler;
     MyAdapter mAdapter;
@@ -43,6 +45,7 @@ public class CarsFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_cars, container, false);
+        foodViewModel = new ViewModelProvider((ViewModelStoreOwner) rootView.getContext()).get(FoodViewModel.class);
         viewModel = new ViewModelProvider((ViewModelStoreOwner) rootView.getContext()).get(CarsFragmentViewModel.class);
         pb = rootView.findViewById(R.id.carslistprogressbar);
         pb.setVisibility(View.INVISIBLE);
@@ -52,10 +55,14 @@ public class CarsFragment extends Fragment {
         refreshCategoryList();
 
         Button addBtn = rootView.findViewById(R.id.carsaddbutton);
-        addBtn.setOnClickListener(v -> {
-            String type = "Cars";
-            Navigation.findNavController(v)
-                    .navigate(CarsFragmentDirections.actionCarsFragment2ToAddItemFragment2(type));
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String type = "Cars";
+//                Navigation.findNavController(v).navigate(R.id.action_carsFragment2_to_addItemFragment2("Cars"));
+                Navigation.findNavController(v)
+                        .navigate(CarsFragmentDirections.actionCarsFragment2ToAddItemFragment2(type));
+            }
         });
 
         viewModel.getList().observe(getViewLifecycleOwner(), categories -> mAdapter.notifyDataSetChanged());

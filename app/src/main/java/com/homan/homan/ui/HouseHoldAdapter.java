@@ -48,7 +48,7 @@ public class HouseHoldAdapter  extends RecyclerView.Adapter<HouseHoldAdapter.MyV
             Picasso.get().load(mCurrent.getImage()).placeholder(R.drawable.ic_menu_gallery).into(holder.itemImage);
         }
         holder.categorytext.setText(mCurrent.getDesc());
-        holder.description.setText(mCurrent.getCategoryType());
+        holder.description.setText(mCurrent.getAmount() + "$");
     }
 
 

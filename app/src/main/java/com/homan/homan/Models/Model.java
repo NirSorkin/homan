@@ -25,15 +25,6 @@ public class Model {
         {
             categories = modelSql.getAll(type);
         }
-/*        else{
-
-            categories = new LiveData<List<Category>>() {
-                @Override
-                protected void postValue(List<Category> value) {
-                    super.postValue(value);
-                }
-            };
-        }*/
         fetchUpdatedDataFromFirebase(null, type);
 
         return categories;
@@ -53,7 +44,7 @@ public class Model {
     }
 
     private void fetchUpdatedDataFromFirebase(UpdateListener listener, String type) {
-        SharedPreferences sharedPreferences = MyApplication.context.getSharedPreferences("TAG", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = MyApplication.context.getSharedPreferences(type, Context.MODE_PRIVATE);
         long lastUpdated = sharedPreferences.getLong("lastUpdated", 0);
         modelFirebase.getAll(lastUpdated, result -> {
             long lastU = 0;

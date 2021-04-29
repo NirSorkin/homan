@@ -12,6 +12,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 import com.homan.homan.Models.Model;
+import com.homan.homan.ui.clothing.ClothingFragment;
+import com.homan.homan.ui.food.FoodFragment;
 
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
@@ -22,11 +24,13 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import static com.homan.homan.R.id.clothingFragment;
 import static com.homan.homan.R.id.nav_host_fragment_container;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,12 +65,6 @@ public class MainActivity extends AppCompatActivity {
 
         return true;
     }
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.main, menu);
-//        return true;
-//    }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
@@ -102,4 +100,6 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
+
 }

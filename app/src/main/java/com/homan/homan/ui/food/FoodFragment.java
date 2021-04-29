@@ -2,10 +2,12 @@ package com.homan.homan.ui.food;
 
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStore;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,16 +20,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
-import com.homan.homan.Models.Category;
 import com.homan.homan.R;
-import com.homan.homan.ui.ClothingAdapter;
 import com.homan.homan.ui.FoodAdapter;
-import com.homan.homan.ui.MyAdapter;
-import com.homan.homan.ui.clothing.ClothingFragmentDirections;
-import com.homan.homan.ui.clothing.ClothingViewModel;
-
-import java.util.LinkedList;
-import java.util.List;
 
 
 public class FoodFragment extends Fragment {
@@ -37,14 +31,18 @@ public class FoodFragment extends Fragment {
     FoodAdapter mAdapter;
     ProgressBar pb;
 
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
+
         View rootView = inflater.inflate(R.layout.fragment_food, container, false);
         viewModel = new ViewModelProvider((ViewModelStoreOwner) rootView.getContext()).get(FoodViewModel.class);
+        viewModel.getList().observe(getViewLifecycleOwner(), categories -> mAdapter.notifyDataSetChanged());
         pb = rootView.findViewById(R.id.foodlistprogressbar);
         pb.setVisibility(View.INVISIBLE);
+
         initializeViewElements(rootView);
         initializeRecyclerView(rootView);
         initializeViewHandlers();
@@ -57,12 +55,15 @@ public class FoodFragment extends Fragment {
                     .navigate(FoodFragmentDirections.actionFoodFragmentToAddItemFragment2(type));
         });
 
-        viewModel.getList().observe(getViewLifecycleOwner(), categories -> mAdapter.notifyDataSetChanged());
         return rootView;
     }
 
     private void initializeViewElements(View view) {
         mSwipeRefreshLayout = view.findViewById(R.id.swipe_refresh);
+        mSwipeRefreshLayout.setOnRefreshListener(() -> {
+
+            mSwipeRefreshLayout.setRefreshing(false);
+        });
         foodListRecycler = view.findViewById(R.id.foodList);
     }
 
@@ -80,5 +81,7 @@ public class FoodFragment extends Fragment {
         viewModel.refreshCategoryList();
         mSwipeRefreshLayout.setRefreshing(false);
     }
+
+
 
 }

@@ -3,7 +3,10 @@ package com.homan.homan.Models;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 
 import java.util.List;
 
@@ -14,6 +17,17 @@ public class ModelSql {
 
     public LiveData<List<Category>> getAll(String type) {
         return AppLocalDB.db.categoryDao().getByUserCategoryType(UserModel.instance.getEmail() , type);
+    }
+
+
+    public LiveData<List<Category>> setAll() {
+        LiveData<List<Category>> temp = new LiveData<List<Category>>() {
+            @Override
+            public void observe(@NonNull LifecycleOwner owner, @NonNull Observer<? super List<Category>> observer) {
+                super.observe(owner, observer);
+            }
+        };
+        return temp;
     }
 
     public LiveData<List<Category>> getAllByOwnerId(String userId) {
@@ -34,7 +48,7 @@ public class ModelSql {
                 return null;
             }
 
-         /*   @Override
+/*            @Override
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
                 listener.onComplete(data);

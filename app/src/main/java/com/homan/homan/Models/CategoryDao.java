@@ -21,7 +21,6 @@ public interface CategoryDao {
     @Query("SELECT * FROM Category WHERE categoryType == :categoryType AND userID == :userID")
     LiveData<List<Category>> getByCategoryType(String categoryType , String userID);
 
-
     @Query("SELECT * FROM Category" + " WHERE ownerId LIKE :ownerId" +" AND categoryType LIKE :categoryType" )
     LiveData<List<Category>> getByUserCategoryType(String ownerId,String categoryType);
 

@@ -1,6 +1,7 @@
 package com.homan.homan.ui.home;
 
 import android.app.AlertDialog;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,11 +14,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
+import com.homan.homan.MainActivity;
 import com.homan.homan.Models.Model;
 import com.homan.homan.R;
 
@@ -30,6 +31,7 @@ public class HomeFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
+        getActivity().getViewModelStore().clear();
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         final TextView textView = root.findViewById(R.id.homeTitle_Text);
         homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
@@ -49,6 +51,7 @@ public class HomeFragment extends Fragment {
 
         ImageButton foodBtn = root.findViewById(R.id.homeFood_btn);
         foodBtn.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 Navigation.findNavController(v).navigate(R.id.action_nav_home_to_foodFragment);
@@ -83,6 +86,7 @@ public class HomeFragment extends Fragment {
         otherBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Navigation.findNavController(v).navigate(R.id.action_nav_home_to_otherFragment);
             }
         });
