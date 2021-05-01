@@ -1,6 +1,7 @@
 package com.homan.homan.Models;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -19,12 +20,10 @@ public interface CategoryDao {
     LiveData<List<Category>> getByHouseID(int houseID);*/
 
     @Query("SELECT * FROM Category WHERE categoryType == :categoryType AND userID == :userID")
-    LiveData<List<Category>> getByCategoryType(String categoryType , String userID);
+    LiveData<List<Category>> getByCategoryType(String categoryType, String userID);
 
-    @Query("SELECT * FROM Category" + " WHERE ownerId LIKE :ownerId" +" AND categoryType LIKE :categoryType" )
-    LiveData<List<Category>> getByUserCategoryType(String ownerId,String categoryType);
-
-
+    @Query("SELECT * FROM Category WHERE ownerId == :ownerId AND categoryType == :categoryType" )
+    LiveData<List<Category>> getByUserCategoryType(String ownerId, String categoryType);
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

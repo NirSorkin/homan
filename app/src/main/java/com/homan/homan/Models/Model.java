@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.homan.homan.MyApplication;
@@ -18,24 +19,20 @@ public class Model {
     ModelSql modelSql = new ModelSql();
     private LiveData<List<Category>> categories;
 
-    private Model(){ }
+    private Model() {
+    }
 
     public LiveData<List<Category>> getAll(String type) {
-        if (categories == null)
-        {
-            categories = modelSql.getAll(type);
-        }
+        categories = modelSql.getAll(type);
         fetchUpdatedDataFromFirebase(null, type);
 
         return categories;
     }
 
-
-
     public LiveData<List<Category>> getAllByOwnerId(String type) {
         String userId = FirebaseAuth.getInstance().getUid();
         LiveData<List<Category>> categoriesByOwner = modelSql.getAllByOwnerId(userId);
-        fetchUpdatedDataFromFirebase(null , type);
+        fetchUpdatedDataFromFirebase(null, type);
         return categoriesByOwner;
     }
 
@@ -49,24 +46,21 @@ public class Model {
         modelFirebase.getAll(lastUpdated, result -> {
             long lastU = 0;
             for (Category ct : result) {
-                   modelSql.addItem(ct, null);
-                   if (ct.getLastUpdated() > lastU) {
-                       lastU = ct.getLastUpdated();
-                   if (ct.getRemoved()) {
-                       modelSql.delete(ct, null);
-                   }
-               }
+                modelSql.addItem(ct, null);
+                if (ct.getLastUpdated() > lastU) {
+                    lastU = ct.getLastUpdated();
+                    if (ct.getRemoved()) {
+                        modelSql.delete(ct, null);
+                    }
+                }
             }
             sharedPreferences.edit().putLong("lastUpdated", lastU).apply();
             if (listener != null) listener.onComplete();
-        },type);
+        }, type);
     }
 
 
-
-
-
-    public interface GetAllCategoriesListener{
+    public interface GetAllCategoriesListener {
         void onComplete(LiveData<List<Category>> data);
     }
 
@@ -74,36 +68,39 @@ public class Model {
         modelFirebase.getAllByCategory(listener , type);
     }*/
 
-    public interface  AddItemListener{
+    public interface AddItemListener {
         void onComplete();
     }
 
-    public void addItem(Category item,  AddItemListener listener){
-        modelFirebase.addItem(item , listener);
+    public void addItem(Category item, AddItemListener listener) {
+        modelFirebase.addItem(item, listener);
     }
 
-    public interface  UpdateItemListener extends  AddItemListener{}
-
-    public void updateItem(Category item, UpdateItemListener listener){
-        modelFirebase.updateItem(item , listener);
+    public interface UpdateItemListener extends AddItemListener {
     }
 
-    public interface DeleteListener{
+    public void updateItem(Category item, UpdateItemListener listener) {
+        modelFirebase.updateItem(item, listener);
+    }
+
+    public interface DeleteListener {
         void onComplete();
     }
-    public void deleteItem(Category ct , DeleteListener listener){
+
+    public void deleteItem(Category ct, DeleteListener listener) {
         ct.setRemoved(true);
-        modelSql.delete(ct , null);
-        modelFirebase.deleteItem(ct ,listener);
+        modelSql.delete(ct, null);
+        modelFirebase.deleteItem(ct, listener);
     }
 
-    public interface  Listener<T> {
+    public interface Listener<T> {
         void onComplete(T result);
     }
 
     public interface UploadImageListener extends Listener<String> {
     }
-    public void uploadImage(Bitmap imageBmp, String name, final UploadImageListener listener){
+
+    public void uploadImage(Bitmap imageBmp, String name, final UploadImageListener listener) {
         modelFirebase.uploadImage(imageBmp, name, listener);
     }
 }

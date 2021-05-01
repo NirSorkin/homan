@@ -18,16 +18,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
-import com.homan.homan.Models.Category;
 import com.homan.homan.R;
-import com.homan.homan.ui.HouseHoldAdapter;
 import com.homan.homan.ui.InsurencesAdapter;
-import com.homan.homan.ui.MyAdapter;
-import com.homan.homan.ui.food.FoodFragmentDirections;
-import com.homan.homan.ui.houseHold.HouseHoldViewModel;
-
-import java.util.LinkedList;
-import java.util.List;
 
 
 public class InsurencesFragment extends Fragment {

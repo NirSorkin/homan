@@ -23,6 +23,6 @@ public class OtherViewModel extends ViewModel {
     }
 
     public void refreshCategoryList() {
-        mOtherList = Model.instance.getAll("Other");
+        /*mOtherList = Model.instance.getAll("Other");*/
     }
 }

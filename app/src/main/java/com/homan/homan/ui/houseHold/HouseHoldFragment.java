@@ -19,17 +19,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
-import com.homan.homan.Models.Category;
 import com.homan.homan.R;
-import com.homan.homan.ui.ClothingAdapter;
 import com.homan.homan.ui.HouseHoldAdapter;
-import com.homan.homan.ui.MyAdapter;
-import com.homan.homan.ui.clothing.ClothingFragmentDirections;
-import com.homan.homan.ui.clothing.ClothingViewModel;
-import com.homan.homan.ui.food.FoodFragmentDirections;
-
-import java.util.LinkedList;
-import java.util.List;
 
 
 public class HouseHoldFragment extends Fragment {

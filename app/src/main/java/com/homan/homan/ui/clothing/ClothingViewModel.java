@@ -23,6 +23,6 @@ public class ClothingViewModel extends ViewModel {
     }
 
     public void refreshCategoryList() {
-        mClothingList = Model.instance.getAll("Clothing");
+        /*mClothingList = Model.instance.getAll("Clothing");*/
     }
 }

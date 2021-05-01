@@ -22,7 +22,8 @@ public class InsurencesViewModel  extends ViewModel {
         return mInsurencesList;
     }
 
-    public void refreshCategoryList() {
-        mInsurencesList = Model.instance.getAll("Insurences");
+    public void refreshCategoryList()
+    {
+        /*mInsurencesList = Model.instance.getAll("Insurences");*/
     }
 }

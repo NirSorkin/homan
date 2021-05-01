@@ -23,6 +23,6 @@ public  class CarsFragmentViewModel extends ViewModel {
     }
 
     public void refreshCategoryList() {
-        mCarsList = Model.instance.getAll("Cars");
+//        mCarsList = Model.instance.getAll("Cars");
     }
 }

@@ -34,7 +34,7 @@ import java.util.List;
 public class CarsFragment extends Fragment {
 
     CarsFragmentViewModel viewModel;
-    FoodViewModel foodViewModel;
+
     private SwipeRefreshLayout mSwipeRefreshLayout;
     RecyclerView carsListRecycler;
     MyAdapter mAdapter;
@@ -45,7 +45,6 @@ public class CarsFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_cars, container, false);
-        foodViewModel = new ViewModelProvider((ViewModelStoreOwner) rootView.getContext()).get(FoodViewModel.class);
         viewModel = new ViewModelProvider((ViewModelStoreOwner) rootView.getContext()).get(CarsFragmentViewModel.class);
         pb = rootView.findViewById(R.id.carslistprogressbar);
         pb.setVisibility(View.INVISIBLE);

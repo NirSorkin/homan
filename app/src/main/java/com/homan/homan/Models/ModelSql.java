@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
 import java.util.List;
@@ -18,7 +19,6 @@ public class ModelSql {
     public LiveData<List<Category>> getAll(String type) {
         return AppLocalDB.db.categoryDao().getByUserCategoryType(UserModel.instance.getEmail() , type);
     }
-
 
     public LiveData<List<Category>> setAll() {
         LiveData<List<Category>> temp = new LiveData<List<Category>>() {

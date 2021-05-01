@@ -27,7 +27,7 @@ public class FoodViewModel  extends ViewModel {
     }
 
     public void refreshCategoryList() {
-        mFoodList = Model.instance.getAll("Food");
+       /* mFoodList = Model.instance.getAll("Food");*/
     }
 
 }

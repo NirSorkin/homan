@@ -15,8 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.homan.homan.Models.Category;
 import com.homan.homan.R;
-import com.homan.homan.ui.clothing.ClothingFragmentDirections;
-import com.homan.homan.ui.clothing.ClothingViewModel;
 import com.homan.homan.ui.houseHold.HouseHoldFragmentDirections;
 import com.homan.homan.ui.houseHold.HouseHoldViewModel;
 import com.squareup.picasso.Picasso;

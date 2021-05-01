@@ -23,6 +23,6 @@ public class HouseHoldViewModel extends ViewModel {
     }
 
     public void refreshCategoryList() {
-        mHouseHoldList = Model.instance.getAll("HouseHold");
+   /*     mHouseHoldList = Model.instance.getAll("HouseHold");*/
     }
 }
