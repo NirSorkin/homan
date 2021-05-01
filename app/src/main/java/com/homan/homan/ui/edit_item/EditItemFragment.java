@@ -260,7 +260,7 @@ public class EditItemFragment extends Fragment {
     void reloadData(String type) {
         pb.setVisibility(View.VISIBLE);
         saveButton.setEnabled(false);
-        Model.instance.getAll( "Cars");
+        Model.instance.getAll( type);
     }
 
     private void displayFailedError() {
