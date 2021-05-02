@@ -94,7 +94,7 @@
         android:text="REGISTER"
         android:textColorHighlight="#FFFFFF"
         android:textSize="30sp"
-        app:backgroundTint="@color/purple_500"
+        app:backgroundTint="@color/colorBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
