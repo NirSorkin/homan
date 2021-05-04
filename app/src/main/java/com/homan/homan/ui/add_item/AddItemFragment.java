@@ -177,17 +177,57 @@ public class AddItemFragment extends Fragment {
         String name = UserModel.instance.getEmail() +"-" + Description + "-" + "Image";
         BitmapDrawable drawable = (BitmapDrawable)imageAvatar.getDrawable();
         if(drawable == null){
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setTitle("Operation Failed");
-            builder.setMessage("Saving item failed, must contain an image");
-            builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                    Navigation.findNavController(rootView).popBackStack();
+//            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+//            builder.setTitle("Operation Failed");
+//            builder.setMessage("Saving item failed, must contain an image");
+//            builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    dialog.dismiss();
+//                    Navigation.findNavController(rootView).popBackStack();
+//                }
+//            });
+//            builder.show();
+            if (Description.isEmpty()){
+                inputDescription.setError("Description is Required.");
+                saveButton.setEnabled(true);
+                if (Amount.isEmpty()){
+                    inputAmount.setError("Amount is Required.");
+                    saveButton.setEnabled(true);
+                    return;
                 }
-            });
-            builder.show();
+                return;
+            }
+
+            if (Amount.isEmpty()){
+                inputAmount.setError("Amount is Required.");
+                saveButton.setEnabled(true);
+                if (Description.isEmpty()) {
+                    inputDescription.setError("Description is Required.");
+                    saveButton.setEnabled(true);
+                    return;
+                }
+                return;
+            }
+
+            String userId = UserModel.instance.getEmail();
+            ct.setAmount(inputAmount.getText().toString());
+            ct.setDesc(inputDescription.getText().toString());
+            ct.setUserID(userId);
+            ct.setImage(null);
+//            pb.setVisibility(View.VISIBLE);
+            ct.setCategoryType(type);
+            Calendar c = Calendar.getInstance();
+            int mYear = c.get(Calendar.YEAR);
+            int mMonth = c.get(Calendar.MONTH);
+            int mDay = c.get(Calendar.DAY_OF_MONTH);
+            String CurrentDate = mDay + "." + mMonth + "." + mYear;
+            ct.setDate(CurrentDate);
+
+//            ModelFirebase.instance.addItem(ct, () -> reloadData(ct.getCategoryType()));
+            Model.instance.addItem(ct, () -> reloadData(ct.getCategoryType()));
+            saveButton.setEnabled(false);
+            displaySuccessAlertDialog(rootView);
         }
         if(drawable != null)
         {
